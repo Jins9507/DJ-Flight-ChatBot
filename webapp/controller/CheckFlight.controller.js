@@ -11,14 +11,14 @@ sap.ui.define([
 
         return Controller.extend("dj.djchatbot.controller.CheckFlight", {
             onInit: function () {
-                var test = new ODataModel(
-                    "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_001/TravelAgency"
-                    // "Access-Control-Allow-Origin" = "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_001"   
-                );
-                var otest = new ODataModel(
-                    "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/ZC_TRAVEL_DJ_010"
-                    // "Access-Control-Allow-Origin" = "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_001"   
-                );
+                // var test = new ODataModel(
+                //     "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_001/TravelAgency"
+                //     // "Access-Control-Allow-Origin" = "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_001"   
+                // );
+                // var otest = new ODataModel(
+                //     "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/ZC_TRAVEL_DJ_010"
+                //     // "Access-Control-Allow-Origin" = "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_001"   
+                // );
                 
                 // "Access-Control-Allow-Origin" = "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_001";    
 
@@ -39,6 +39,10 @@ sap.ui.define([
                       
                 //     },
                 //   });
+                var oTestModel = new JSONModel();
+                // oTestModel = this.getOwnerComponent().getModel("testModel").getProperty("/testTable");
+                oTestModel = this.getOwnerComponent().getModel("testModel");
+                this.getView().setModel(oTestModel, 'testModel');
                 this.getView().setModel(new JSONModel({
                     locationFrom : "",
                     locationTo  :  "",
@@ -52,31 +56,31 @@ sap.ui.define([
                     oView = this.getView(),
                     oRouterModel = oView.getModel("routerModel");
 
-                $.ajax({
-                    url: "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/$metadata",
-                    type: "GET",
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader("X-CSRF-Token", "Fetch");
-                    },
-                    complete: function (xhr) {
-                        console.log(xhr)
-                        var oToken = xhr.getResponseHeader("X-CSRF-Token");
-                        $.ajax({
-                            url: "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/ZC_TRAVEL_DJ_010",
-                            type: "GET",
-                            contentType: "application/json",
-                            beforeSend: function (xhr1) {
-                                xhr1.setRequestHeader("X-CSRF-Token", oToken);
-                            },
-                            success: function (success) {
-                                console.log(success)
-                            },
-                            error: function (oError) {
-                                console.log(oError)
-                            }
-                        });
-                    }
-                });
+                // $.ajax({
+                //     url: "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/$metadata",
+                //     type: "GET",
+                //     beforeSend: function (xhr) {
+                //         xhr.setRequestHeader("X-CSRF-Token", "Fetch");
+                //     },
+                //     complete: function (xhr) {
+                //         console.log(xhr)
+                //         var oToken = xhr.getResponseHeader("X-CSRF-Token");
+                //         $.ajax({
+                //             url: "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/ZC_TRAVEL_DJ_010",
+                //             type: "GET",
+                //             contentType: "application/json",
+                //             beforeSend: function (xhr1) {
+                //                 xhr1.setRequestHeader("X-CSRF-Token", oToken);
+                //             },
+                //             success: function (success) {
+                //                 console.log(success)
+                //             },
+                //             error: function (oError) {
+                //                 console.log(oError)
+                //             }
+                //         });
+                //     }
+                // });
 
                 if (!oArgs["?query"]) return;
                 if (oArgs['?query']) {

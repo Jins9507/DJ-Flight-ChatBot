@@ -1,109 +1,83 @@
 <mvc:View controllerName="dj.djchatbot.controller.CheckFlight"
 	displayBlock="true"
     xmlns:mvc="sap.ui.core.mvc" 
+	xmlns:t="sap.ui.table"
+	xmlns:f="sap.f" 
     xmlns:core="sap.ui.core"
 	xmlns:uxap="sap.uxap"
     xmlns="sap.m">
-    <Page id="page" title="{i18n>title}">
-		<Table id="idFlightScheduleTable"
-			inset="false"
-			items="{
-				path: 'mainModel/ZC_TRAVEL_DJ_010',
-				sorter: {
-					path: 'Country'
-				}
-			}">
-			<headerToolbar>
-				<OverflowToolbar>
-					<content>
-						<Title text="Products" level="H2"/>
-						<ToolbarSpacer />
-						<ComboBox id="idPopinLayout"
-							placeholder="Popin layout options"
-							change="onPopinLayoutChanged">
-							<items>
-								<core:Item  text="Block"
-									key="Block"/>
-								<core:Item  text="Grid Large"
-									key="GridLarge"/>
-								<core:Item  text="Grid Small"
-									key="GridSmall"/>
-							</items>
-						</ComboBox>
-						<Label text="Sticky options:" />
-						<CheckBox text="ColumnHeaders"
-							select="onSelect"/>
-						<CheckBox text="HeaderToolbar"
-							select="onSelect"/>
-						<CheckBox text="InfoToolbar"
-							select="onSelect"/>
-						<ToggleButton id="toggleInfoToolbar"
-							text="Hide/Show InfoToolbar"
-							press="onToggleInfoToolbar" />
-					</content>
-				</OverflowToolbar>
-			</headerToolbar>
-			<infoToolbar>
-				<OverflowToolbar>
-					<Label text="Wide range of available products"/>
-				</OverflowToolbar>
-			</infoToolbar>
-			<columns>
-				<Column
-					width="12em">
-					<Text text="Flight Number" />
-				</Column>
-				<Column
-					width="12em">
-					<Text text="Supplier" />
-				</Column>
-				<Column
-					minScreenWidth="Desktop"
-					demandPopin="true"
-					hAlign="End">
-					<Text text="Dimensions" />
-				</Column>
-				<Column
-					minScreenWidth="Desktop"
-					demandPopin="true"
-					hAlign="Center">
-					<Text text="Weight" />
-				</Column>
-				<Column
-					hAlign="End">
-					<Text text="Price" />
-				</Column>
-			</columns>
-			<items>
-				<ColumnListItem vAlign="Middle">
-					<cells>
-						<ObjectIdentifier
-							title="{Name}"
-							text="{ProductId}"/>
-						<Text
-							text="{SupplierName}" />
-						<Text
-							text="{Width} x {Depth} x {Height} {DimUnit}" />
-						<ObjectNumber
-							number="{WeightMeasure}"
-							unit="{WeightUnit}"
-							state="{
-								parts: [
-									{path: 'WeightMeasure'},
-									{path: 'WeightUnit'}
-								],
-								formatter: 'sap.m.sample.Table.Formatter.weightState'
-							}" />
-						<ObjectNumber
-								number="{
-									parts:[{path:'Price'},{path:'CurrencyCode'}],
-									type: 'sap.ui.model.type.Currency',
-									formatOptions: {showMeasure: false}
-								}"
-								unit="{CurrencyCode}" />
-					</cells>
-				</ColumnListItem>
-			</items>
-		</Table>
-    </Page>
+    <f:DynamicPage id="page" title="{i18n>title}">
+		<f:content>
+			<Table 
+				id = 'testTable'
+				items="{ path: 'testModel>/testTable' }"
+				paste="onPaste"
+				ariaLabelledBy="title">
+				<columns>
+					<Column width="6rem" id = 'carrid'>
+						<Text text="Airline" />
+					</Column>
+					<Column width="6rem" id = 'connid'>
+						<Text text="Flight Code" />
+					</Column>
+					<Column width="6rem" id = 'cityf'>
+						<Text text="Departure" />
+					</Column>
+					<Column width="6rem" id = 'cityt'>
+						<Text text="Arrival" />
+					</Column>
+					<Column width="6rem" id = 'fdate'>
+						<Text text="Flight Date" />
+					</Column>
+					<Column width="6rem" id = 'deptime'>
+						<Text text="Departure Time" />
+					</Column>
+					<Column width="6rem" id = 'arrtime'>
+						<Text text="Arrival Time" />
+					</Column>
+					<Column width="6rem" id = 'eco'>
+						<Text text="Economy Class" />
+					</Column>
+					<Column width="6rem" id = 'eprice'>
+						<Text text="Fare" />
+					</Column>
+					<Column width="6rem" id = 'bus'>
+						<Text text="Business Class" />
+					</Column>
+					<Column width="6rem" id = 'bprice'>
+						<Text text="Fare" />
+					</Column>					
+					<Column width="6rem" id = 'fst'>
+						<Text text="First Class" />
+					</Column>
+					<Column width="6rem" id = 'fprice'>
+						<Text text="Fare" />
+					</Column>					
+					<Column width="6rem" id = 'cur'>
+						<Text text="Currency" />
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem vAlign="Middle" id= "tiem">
+						<cells>
+							<Text text="{testModel>carrid}"/>
+							<Text text="{testModel>connid}"/>
+							<Text text="{testModel>cityfrom}"/>
+							<Text text="{testModel>cityto}"/>
+							<Text text="{testModel>fldate}"/>
+							<Text text="{testModel>deptime}"/>
+							<Text text="{testModel>arrtime}"/>
+							<Text text="{testModel>seatocc}"/>
+							<Text text="{testModel>price}"/>
+							<Text text="{testModel>seatocc_b}"/>
+							<Text text="{testModel>price_b}"/>
+							<Text text="{testModel>seatocc_f}"/>
+							<Text text="{testModel>price_f}"/>
+							<Text text="{testModel>currency}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</f:content>
+    </f:DynamicPage >
 </mvc:View>

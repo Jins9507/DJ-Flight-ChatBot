@@ -72,8 +72,8 @@
         }
       },
       "testModel": {
-        "type": "sap.ui.model.json.JSONModel",
-        "dataSource": "dataModel"
+        "dataSource": "testModel",
+        "type": "sap.ui.model.json.JSONModel"
       },
       "mainModel": {
         "dataSource": "mainService",
