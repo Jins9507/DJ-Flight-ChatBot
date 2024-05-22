@@ -14,6 +14,19 @@
       "id": "@sap/generator-fiori:basic",
       "version": "1.13.3",
       "toolsId": "99058f0c-0b41-45ec-836b-bf65b9082a08"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "2.0"
+        }
+      },
+      "testModel": {
+        "uri": "model/testModel.json",
+        "type": "JSON"
+      }
     }
   },
   "sap.ui": {
@@ -57,8 +70,20 @@
         "settings": {
           "bundleName": "dj.djchatbot.i18n.i18n"
         }
+      },
+      "testModel": {
+        "type": "sap.ui.model.json.JSONModel",
+        "dataSource": "dataModel"
+      },
+      "mainModel": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+            "defaultBindingMode": "TwoWay",
+            "defaultCountMode": "Inline",
+            "refreshAfterChange": true
+        }
       }
-
     },
     "resources": {
       "css": [
@@ -84,6 +109,13 @@
           "target": [
             "TargetMain"
           ]
+        },
+        {
+          "pattern": "schedule/{?query}",
+          "name": "CheckFlight",
+          "target": [
+              "TargetCheck"
+          ]
         }
       ],
       "targets": {
@@ -93,6 +125,13 @@
           "clearControlAggregation": false,
           "viewId": "Main",
           "viewName": "Main"
+        },
+        "TargetCheck": {  
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,           
+          "viewId": "CheckFlight",      				
+					"viewName": "CheckFlight"
         }
       }
     },

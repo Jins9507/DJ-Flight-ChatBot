@@ -1,8 +1,52 @@
 <mvc:View controllerName="dj.djchatbot.controller.Main"
-    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+	displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc" 
     xmlns:core="sap.ui.core"
+	xmlns:layout="sap.ui.layout"
+	xmlns:tnt="sap.tnt"
     xmlns="sap.m">
     <Page id="page" title="Search Your Flight!">
-		
+		<Panel headerText="Where To Go?" width="auto">
+			<FlexBox
+				height="100px"
+				alignItems="Start"
+				justifyContent="Center"
+				class="sapUiResponsiveMargin"
+				width="auto">
+				<tnt:InfoLabel id="l1" text="Starting point" renderMode="Loose" colorScheme="5"  icon="sap-icon://journey-depart" class="sapUiSmallMargin"/>	
+				<Select
+					id="flightFrom"
+					forceSelection="false"
+					selectedKey="{/LocationFrom}"
+					items="{
+						path: '/StartingPoint',
+						sorter: { path: 'Country' }
+					}">
+					<core:Item key="{AirportID}" text="{Country}" />
+				</Select>				
+				<tnt:InfoLabel id="l2" text="Destination" renderMode="Loose" colorScheme="5" icon="sap-icon://journey-arrive" class="sapUiSmallMargin"/>	
+				<Select
+					id="flightTo"
+					forceSelection="false"
+					selectedKey="{/LocationTo}"
+					items="{
+						path: '/Destination',
+						sorter: { path: 'Country' }
+					}">
+					<core:Item key="{AirportID}" text="{Country}" />
+				</Select>
+				<tnt:InfoLabel id="l3" text="Personnel" renderMode="Loose" colorScheme="5" icon="sap-icon://group" class="sapUiSmallMargin"/>						
+				<Input
+					id="personnel"
+					value="{/Personnel}"
+					valueLiveUpdate="true"
+					editable="true"
+					width="30%"/>	
+				<Button
+					text="Search"
+					press=".onSearch"
+					class="sapUiSmallMarginEnd"/>
+			</FlexBox>		
+		</Panel>
     </Page>
 </mvc:View>
