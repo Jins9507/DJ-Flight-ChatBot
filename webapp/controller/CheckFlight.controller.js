@@ -1,12 +1,14 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/odata/v2/ODataModel",
-    "sap/ui/model/json/JSONModel"
+    "sap/ui/model/json/JSONModel",
+    "sap/ui/model/Filter",
+	"sap/ui/model/FilterOperator"    
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, ODataModel, JSONModel) {
+    function (Controller, ODataModel, JSONModel, Filter, FilterOperator) {
         "use strict";
 
         return Controller.extend("dj.djchatbot.controller.CheckFlight", {
@@ -40,7 +42,6 @@ sap.ui.define([
                 //     },
                 //   });
                 var oTestModel = new JSONModel();
-                // oTestModel = this.getOwnerComponent().getModel("testModel").getProperty("/testTable");
                 oTestModel = this.getOwnerComponent().getModel("testModel");
                 this.getView().setModel(oTestModel, 'testModel');
                 this.getView().setModel(new JSONModel({
@@ -88,9 +89,18 @@ sap.ui.define([
                     oRouterModel.setProperty("/locationTo", oArgs['?query'].locationTo);
                     oRouterModel.setProperty("/personnel", oArgs['?query'].personnel);
                 }
-                
+
+                var aFilter = [];
+                var oTable = this.getView().byId("schduleTable");
+
+                aFilter.push(new Filter("airpfrom", FilterOperator.EQ, oRouterModel.getProperty("/locationFrom")));
+                aFilter.push(new Filter("airpto", FilterOperator.EQ, oRouterModel.getProperty("/locationTo")));
+
+                var oBinding = oTable.getBinding("items");
+                oBinding.filter(aFilter);    
+
                 // Validation 메세지 초기화
                 sap.ui.getCore().getMessageManager().removeAllMessages();
-            },
+            }
         });
     });

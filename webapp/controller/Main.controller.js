@@ -85,7 +85,9 @@ sap.ui.define([
                 this.getOwnerComponent().getRouter().navTo("CheckFlight", {                
                     "?query": {
                         locationFrom: inputData.LocationFrom,
+                        // locationFromName: this.getView().byId("flightFrom").text,
                         locationTo: inputData.LocationTo,
+                        // locationToName: inputData.LocationTo,
                         personnel: inputData.Personnel
                     }                
                 });
