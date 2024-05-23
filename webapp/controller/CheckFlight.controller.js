@@ -86,7 +86,9 @@ sap.ui.define([
                 if (!oArgs["?query"]) return;
                 if (oArgs['?query']) {
                     oRouterModel.setProperty("/locationFrom", oArgs['?query'].locationFrom);
+                    oRouterModel.setProperty("/locationFromName", oArgs['?query'].locationFromName);
                     oRouterModel.setProperty("/locationTo", oArgs['?query'].locationTo);
+                    oRouterModel.setProperty("/locationToName", oArgs['?query'].locationToName);
                     oRouterModel.setProperty("/personnel", oArgs['?query'].personnel);
                 }
 
@@ -95,8 +97,7 @@ sap.ui.define([
 
                 aFilter.push(new Filter("airpfrom", FilterOperator.EQ, oRouterModel.getProperty("/locationFrom")));
                 aFilter.push(new Filter("airpto", FilterOperator.EQ, oRouterModel.getProperty("/locationTo")));
-
-                var oBinding = oTable.getBinding("items");
+                var oBinding = oTable.getBinding("rows");
                 oBinding.filter(aFilter);    
 
                 // Validation 메세지 초기화

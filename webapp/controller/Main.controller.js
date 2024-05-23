@@ -80,17 +80,29 @@ sap.ui.define([
 
             onSearch: function(oEvent){
                 var inputData = this.getView().getModel().getData();
+                var Destination = this.getView().getModel().getData().Destination;
+                var indexF = $.inArray(inputData.LocationFrom, $.map(Destination, function(n){
+                    return n.AirportID
+                }));
+                var resultF = this.getView().getModel().getProperty("/Destination/"+indexF);
+
+                var indexT = $.inArray(inputData.LocationTo, $.map(Destination, function(n){
+                    return n.AirportID
+                }));
+                var resultT = this.getView().getModel().getProperty("/Destination/"+indexT);
                 // var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
                 // oRouter.navTo("CheckFlight");
                 this.getOwnerComponent().getRouter().navTo("CheckFlight", {                
                     "?query": {
                         locationFrom: inputData.LocationFrom,
-                        // locationFromName: this.getView().byId("flightFrom").text,
+                        locationFromName: resultF.Country,
                         locationTo: inputData.LocationTo,
-                        // locationToName: inputData.LocationTo,
+                        locationToName: resultT.Country,
                         personnel: inputData.Personnel
                     }                
                 });
+
+
             }
         });
     });
