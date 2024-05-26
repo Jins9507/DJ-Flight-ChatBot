@@ -1,36 +1,18 @@
-<mvc:View controllerName="dj.djchatbot.controller.Main"
+<mvc:View controllerName="dj.djchatbot.controller.Reservation"
 	displayBlock="true"
     xmlns:mvc="sap.ui.core.mvc" 
     xmlns:core="sap.ui.core"
 	xmlns:layout="sap.ui.layout"
 	xmlns:tnt="sap.tnt"
     xmlns="sap.m">
-
-	<layout:VerticalLayout width="100%">
-		<Title
-			level="H1"
-			titleStyle="H1"
-			textAlign="Center"
-			text="Where To Go?"
-			class="sapUiLargeMarginTop sapUiMediumMarginBottom sapUiLargeMarginBegin"/>
-
-		<layout:VerticalLayout
-				width="100%"
-				class="gridWrapper">
-			<layout:Grid>
-				<VBox>
-				</VBox>
-			</layout:Grid>
-		</layout:VerticalLayout>
-	</layout:VerticalLayout>
-    <Page id="page" title="DJ Flight Scanner" class="sapUiLargeMarginTop sapUiMediumMarginBottom" >
-		<Panel width="90%">
+    <Page id="page" title="Search Your Flight!">
+		<Panel headerText="Where To Go?" width="auto">
 			<FlexBox
 				height="100px"
 				alignItems="Start"
 				justifyContent="Center"
 				class="sapUiResponsiveMargin"
-				width="90%">
+				width="auto">
 				<tnt:InfoLabel id="l1" text="Starting point" renderMode="Loose" colorScheme="5"  icon="sap-icon://journey-depart" class="sapUiSmallMargin"/>	
 				<Select
 					id="flightFrom"
@@ -69,5 +51,4 @@
 			</FlexBox>		
 		</Panel>
     </Page>
-	
 </mvc:View>

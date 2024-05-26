@@ -116,6 +116,13 @@
           "target": [
               "TargetCheck"
           ]
+        },
+        {
+          "pattern": "schedule/reservation/{?query}",
+          "name": "Reservation",
+          "target": [
+              "Reservation"
+          ]
         }
       ],
       "targets": {
@@ -132,6 +139,13 @@
           "clearControlAggregation": false,           
           "viewId": "CheckFlight",      				
 					"viewName": "CheckFlight"
+        },
+        "Reservation": {  
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,           
+          "viewId": "Reservation",      				
+					"viewName": "Reservation"
         }
       }
     },

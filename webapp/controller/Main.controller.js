@@ -18,8 +18,8 @@ sap.ui.define([
                 
                 var selectLocationData = {
                     "Personnel": "",
-                    "LocationFrom": "JFK",
-                    "LocationTo"  : "TYO",
+                    "LocationFrom": "FRA",
+                    "LocationTo"  : "JFK",
                     "StartingPoint": [
                         {
                             "AirportID": "JFK",
@@ -101,8 +101,29 @@ sap.ui.define([
                         personnel: inputData.Personnel
                     }                
                 });
+            },
 
-
+            onChangePersonnel: function(oEvent){
+                // if(!oEvent.getParameter('value')){
+                //     this.getView().setValueState(sap.ui.core.ValueState.Error);
+                // }
+                // else{
+                //     this.getView().setValueState(sap.ui.core.ValueState.None);
+                // }           
+                
+                // oManager = new sap.ui.commons.TextField({
+                // id : "personnel",
+                // required : true,
+                // change : function() {
+                //         if (this.getValue() === "") {
+                //             this.setValueState(sap.ui.core.ValueState.Error);  // if the field is empty after change, it will go red
+                //         }
+            
+                //         else {
+                //             this.setValueState(sap.ui.core.ValueState.None); // if the field is not empty after change, the value state (if any) is removed
+                //         }
+                //     }
+                // })
             }
         });
     });
