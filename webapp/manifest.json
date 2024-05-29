@@ -75,6 +75,9 @@
         "dataSource": "testModel",
         "type": "sap.ui.model.json.JSONModel"
       },
+      "reserveModel": {
+        "type": "sap.ui.model.json.JSONModel"
+      },
       "mainModel": {
         "dataSource": "mainService",
         "preload": true,

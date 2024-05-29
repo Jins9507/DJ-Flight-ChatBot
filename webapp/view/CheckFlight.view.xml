@@ -118,7 +118,7 @@
                 width="100%">
                 <t:extension>
                     <OverflowToolbar design="Transparent">
-                        <Title text="Search {testModel>tableL} Rows" />
+                        <Title text="Search {testModel>/tableL} Rows" />
                         <ToolbarSpacer/>
                         <Button text="Test Button" type="Transparent" press=".onTestPress"/>
                         <Button text="Test Button2" type="Emphasized" press=".onTestPress"/>
@@ -133,7 +133,7 @@
                 </t:rowActionTemplate>
                 <t:columns>
                     <!-- Airline -->
-                    <t:Column hAlign="Center" width="3rem" sortProperty="carrid" filterProperty="carrid">
+                    <t:Column hAlign="Center" width="4rem" sortProperty="carrid" filterProperty="carrid">
                         <Label text="Airline"/>
                         <t:template>
                             <Text text="{
@@ -168,22 +168,24 @@
                         <Label text="Flight Date" />
                         <t:template>
                             <Text text="{
-								path : 'testModel>fldate'
+								path : 'testModel>fldate',
+                                formatter : '.formatDate'
 							}" wrapping="false"/>
                         </t:template>
                     </t:Column>
                     <!-- Departure Time -->
-                    <t:Column  width="6em" hAlign="Left" sortProperty="deptime" filterProperty="deptime">
-                        <Label text="Departure Time" />
+                    <t:Column  width="5em" hAlign="Center" sortProperty="deptime" filterProperty="deptime">
+                        <Label text="Dep.Time" />
                         <t:template>
-                            <Text text="{testModel>deptime}" wrapping="false"/>
+                            <Text text="{ path : 'testModel>deptime', formatter : '.formatTime' }" wrapping="false"/>
                         </t:template>
                     </t:Column>
                     <!-- Arrival Time -->
-                    <t:Column  width="6em" hAlign="Left" sortProperty="arrtime" filterProperty="arrtime">
-                        <Label text="Arrival Time" />
+                    <t:Column  width="5em" hAlign="Center" sortProperty="arrtime" filterProperty="arrtime">
+                        <Label text="Arr.Time" />
                         <t:template>
-                            <Text text="{testModel>arrtime}" wrapping="false"/>
+                            <Text text="{ path : 'testModel>arrtime', formatter : '.formatTime' }" wrapping="false"/>
+                            <!-- <Text text="{testModel>arrtime}" wrapping="false"/> -->
                         </t:template>
                     </t:Column>
                     <!-- Economy -->

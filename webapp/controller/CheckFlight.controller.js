@@ -57,8 +57,8 @@ sap.ui.define([
             _onRouteMatched: function(oEvent){
                 var oArgs = oEvent.getParameter("arguments"),
                     oView = this.getView(),
-                    oRouterModel = oView.getModel("routerModel");
-                    // oTestModel = oView.getModel("testModel");
+                    oRouterModel = oView.getModel("routerModel"),
+                    oTestModel = oView.getModel("testModel");
                 // $.ajax({
                 //     url: "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/$metadata",
                 //     type: "GET",
@@ -102,9 +102,27 @@ sap.ui.define([
                 var oBinding = oTable.getBinding("rows");
                 oBinding.filter(aFilter);    
                 // oTestModel.setProperty("/tableL", oBinding.iLength);
+                this.getOwnerComponent().getModel("testModel").setProperty("/tableL", oBinding.iLength);
                 // Validation 메세지 초기화
                 sap.ui.getCore().getMessageManager().removeAllMessages();
             },
+
+            formatDate: function(oDate) {
+                var sReturnValue = "";
+                if (oDate) {
+                   sReturnValue = oDate.slice(0, 4) + "-" + oDate.slice(4, 6) + "-" + oDate.slice(6, 8);
+                }
+                return sReturnValue;
+            },
+
+            formatTime: function(oTime) {
+                var sReturnValue = "";
+                if (oTime) {
+                   sReturnValue = oTime.slice(0, 2) + ":" + oTime.slice(2, 4);
+                }
+                return sReturnValue;
+            },    
+
             onPressOpenPopover: function (oEvent) {
                 var oView = this.getView(),
                     oSourceControl = oEvent.getSource();
@@ -112,7 +130,7 @@ sap.ui.define([
                 if (!this._pPopover) {
                     this._pPopover = Fragment.load({
                         id: oView.getId(),
-                        name: "dj.djchatbot.view.Card"
+                        name: "dj.djchatbot.view.Card" // manifest의 Routing viewPath 를 참고
                     }).then(function (oPopover) {
                         oView.addDependent(oPopover);
                         return oPopover;
