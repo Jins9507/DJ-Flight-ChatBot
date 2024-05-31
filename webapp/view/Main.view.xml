@@ -58,10 +58,10 @@
             </Select>
             <tnt:InfoLabel id="l3" text="Passenger" renderMode="Loose" colorScheme="5" icon="sap-icon://group" class="sapUiSmallMargin"/>						
             <Input
-                id="personnel"
+                id="Passenger"
                 class="sapUiSmallMargin"
                 required = "true"
-                value="{/Personnel}"
+                value="{/Passenger}"
                 type = "Number"
                 editable="true"	
                 width="30%"/>	

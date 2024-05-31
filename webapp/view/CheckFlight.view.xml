@@ -26,7 +26,7 @@
 						<Label text="Maybe Search condition date input"/>
 					</f:expandedContent>
 					<f:snappedContent>
-						<Label text="{routerModel>/locationFromName} - {routerModel>/locationToName}, {routerModel>/personnel} person"/>
+						<Label text="{routerModel>/locationFromName} - {routerModel>/locationToName}, {routerModel>/Passenger} Person"/>
 					</f:snappedContent>
 					<f:snappedTitleOnMobile>
 						<Title text="This is a subheading"/>
@@ -88,7 +88,7 @@
 						<layout:VerticalLayout class="sapUiMediumMarginEnd">
 							<ObjectAttribute title="From" text="{routerModel>/locationFromName}"/>
 							<ObjectAttribute title="To" text="{routerModel>/locationToName}"/>
-							<ObjectAttribute title="Personnel" text="{routerModel>/personnel}"/>
+							<ObjectAttribute title="Passenger" text="{routerModel>/Passenger}"/>
 						</layout:VerticalLayout>
 
 						<layout:VerticalLayout>
@@ -115,7 +115,7 @@
                 rowActionCount="1"
                 columnResize="onColumnResize"
                 enableColumnFreeze="true"
-                width="100%">
+                >
                 <t:extension>
                     <OverflowToolbar design="Transparent">
                         <Title text="Search {testModel>/tableL} Rows" />
@@ -143,7 +143,7 @@
                         </t:template>
                     </t:Column>
                     <!-- Flight Code -->
-                    <t:Column hAlign="Center" width="4em" sortProperty="connid" filterProperty="connid" >
+                    <t:Column hAlign="Center" width="6em" sortProperty="connid" filterProperty="connid" >
                         <Label text="Flight Code" textAlign="Center"/>
                         <t:template>
                             <Text text="{testModel>connid}" wrapping="false" textAlign="Left"/>
@@ -189,7 +189,7 @@
                         </t:template>
                     </t:Column>
                     <!-- Economy -->
-                    <t:Column width="5em" hAlign="Left" sortProperty="seatocc" filterProperty="seatocc">
+                    <t:Column width="5em" hAlign="Center" sortProperty="seatocc" filterProperty="seatocc">
                         <Label text="Economy" />
                         <t:template>
                             <Text text="{testModel>seatocc}" wrapping="false" />
@@ -213,7 +213,7 @@
                         </t:template>
                     </t:Column>
                     <!-- Business -->
-                    <t:Column  width="5em" hAlign="Left" visible = "true" sortProperty="seatocc_b" filterProperty="seatocc_b">
+                    <t:Column  width="5em" hAlign="Center" visible = "true" sortProperty="seatocc_b" filterProperty="seatocc_b">
                         <Label text="Business" />
                         <t:template>
                             <Text text="{testModel>seatocc_b}" wrapping="false"/>
@@ -237,7 +237,7 @@
                         </t:template>
                     </t:Column>
                     <!-- First -->
-                    <t:Column  width="4em" hAlign="Left" visible = "true" sortProperty="seatocc_f" filterProperty="seatocc_f">
+                    <t:Column  width="4em" hAlign="Center" visible = "true" sortProperty="seatocc_f" filterProperty="seatocc_f">
                         <Label text="First" />
                         <t:template>
                             <Text text="{testModel>seatocc_f}" wrapping="false"/>

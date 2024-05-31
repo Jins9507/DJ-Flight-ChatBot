@@ -22,7 +22,7 @@ sap.ui.define([
                 // this.getView().byId("page").getAggregation("_navMaster").setWidth("90%");
 
                 var selectLocationData = {
-                    "Personnel": "",
+                    "Passenger": "",
                     "LocationFrom": "FRA",
                     "LocationTo"  : "JFK",
                     "StartingPoint": [
@@ -95,8 +95,8 @@ sap.ui.define([
                     })),
                     resultT = this.getView().getModel().getProperty("/Destination/"+indexT);
 
-                if( inputData.Personnel == 0 ){
-                    var msg = 'Please input the Personnel Count';
+                if( inputData.Passenger == 0 ){
+                    var msg = 'Please Check the Passenger';
                     MessageToast.show(msg);
                     return;
                 }
@@ -105,9 +105,9 @@ sap.ui.define([
                 aFilter.push(new Filter("airpfrom", FilterOperator.EQ, inputData.LocationFrom));
                 aFilter.push(new Filter("airpto", FilterOperator.EQ, inputData.LocationTo));
                 // 왜 안되지~~ ㅣ낭허미ㅏㄴ어ㅣㅏㄴㅇ머히
-                // aFilter.push(new Filter("seatocc", FilterOperator.LE, inputData.Personnel));  
-                // aFilter.push(new Filter("seatocc_b", FilterOperator.GE, inputData.Personnel));
-                // aFilter.push(new Filter("seatocc_f", FilterOperator.GE, inputData.Personnel));
+                // aFilter.push(new Filter("seatocc", FilterOperator.LE, inputData.Passenger));  
+                // aFilter.push(new Filter("seatocc_b", FilterOperator.GE, inputData.Passenger));
+                // aFilter.push(new Filter("seatocc_f", FilterOperator.GE, inputData.Passenger));
             
                 var oBinding = this.getOwnerComponent().getModel("testModel");
 
@@ -126,13 +126,13 @@ sap.ui.define([
                             locationFromName: resultF.Country,
                             locationTo: inputData.LocationTo,
                             locationToName: resultT.Country,
-                            personnel: inputData.Personnel
+                            Passenger: inputData.Passenger
                         }                
                     });
                 }
             },
 
-            onChangePersonnel: function(oEvent){
+            onChangePassenger: function(oEvent){
                 // if(!oEvent.getParameter('value')){
                 //     this.getView().setValueState(sap.ui.core.ValueState.Error);
                 // }
@@ -141,7 +141,7 @@ sap.ui.define([
                 // }           
                 
                 // oManager = new sap.ui.commons.TextField({
-                // id : "personnel",
+                // id : "Passenger",
                 // required : true,
                 // change : function() {
                 //         if (this.getValue() === "") {

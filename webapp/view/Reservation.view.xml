@@ -3,6 +3,9 @@
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns="sap.m"
 	xmlns:f="sap.f"
+	xmlns:core="sap.ui.core"
+	xmlns:smartForm="sap.ui.comp.smartform"
+	xmlns:smartField="sap.ui.comp.smartfield"	
 	xmlns:form="sap.ui.layout.form"
 	xmlns:layout="sap.ui.layout"
 	height="100%">
@@ -32,30 +35,41 @@
 						<WizardStep
 							id="ContentsStep"
 							nextStep="PaymentTypeStep"
-							title="Selected flight information"
+							title="Confirm Flight Information"
 							icon="sap-icon://flight">
 							<ObjectHeader
-								title="Total"
-								number="{selectedRow>/price}"
-								numberUnit="EUR">
+								title="Total Cost"
+								titleLevel="H1"
+								icon="sap-icon://travel-expense"
+								number="{
+									parts:[{path:'reserveModel>/total'},{path:'reserveModel>/reserve/currency'}],
+									type: 'sap.ui.model.type.Currency',
+									formatOptions: {showMeasure: false}
+								}"
+								numberUnit="{reserveModel>/reserve/currency}"	
+								numberState="Information"	
+								>
 								<attributes>
-									<ObjectAttribute text="This is the list of items in your shopping cart"/>
+									<ObjectAttribute text="This is the total cost of your journey"/>
 								</attributes>
 							</ObjectHeader>
-							<List mode="Delete"
-							      items="{/ProductCollection}"
-							      enableBusyIndicator="true"
-							      delete="handleDelete"
-							      headerText="Items">
-								<StandardListItem
-									title="{Name}"
-									type="Active"
-									description="{Description}"
-									icon="{ProductPicUrl}"
-									info="{Price} {CurrencyCode}"
-									iconDensityAware="false"
-									iconInset="false"/>
-							</List>
+							<form:SimpleForm
+								layout="ResponsiveGridLayout">
+								<Label text="Flight number"/>
+								<Text text="{reserveModel>/reserve/carrid}{reserveModel>/reserve/connid}"/>								
+								<Label text="From"/>
+								<Text text="{reserveModel>/reserve/cityfrom}"/>
+								<Label text="To"/>
+								<Text text="{reserveModel>/reserve/cityto}"/>						
+								<Label text="Flight Date"/>
+								<Text text="{ path : 'reserveModel>/reserve/fldate', formatter : '.formatDate' }"/>		
+								<Label text="Departure Time"/>
+								<Text text="{ path : 'reserveModel>/reserve/deptime', formatter : '.formatTime' }"/>		
+								<Label text="Arrival Time"/>
+								<Text text="{ path : 'reserveModel>/reserve/arrtime', formatter : '.formatTime' }"/>	
+								<Label text="Passenger"/>
+								<Text text="{routerModel>/Passenger}"/>																										
+							</form:SimpleForm>
 						</WizardStep>
 						<WizardStep
 							id="PaymentTypeStep"
@@ -64,7 +78,7 @@
 							complete="goToPaymentStep"
 							icon="sap-icon://money-bills">
 							<Text class="sapUiSmallMarginBottom"
-							      text="We accept all major credit cards. No extra cost will be charged when paying with a credit card. Bank transfer and Cash on delivery are only possible for inland deliveries. A service charge of 2.99 EUR will be charged for these types of deliveries. Be aware, that for Bank transfers, the shipping will start on the day after the payment is received."/>
+							      text="We accept all major credit cards. No extra cost will be charged when paying with a credit card. Bank transfer are only possible. A service charge of 2.99 EUR will be charged for these types of deliveries. Be aware, that for Bank transfers, the shipping will start on the day after the payment is received."/>
 							<HBox
 								alignItems="Center"
 								justifyContent="Center"
@@ -76,8 +90,6 @@
 										                     text="Credit card"/>
 										<SegmentedButtonItem key="Bank Transfer" icon="sap-icon://official-service"
 										                     text="Bank transfer"/>
-										<SegmentedButtonItem key="Cash on Delivery" icon="sap-icon://money-bills"
-										                     text="Cash on delivery"/>
 									</items>
 								</SegmentedButton>
 							</HBox>

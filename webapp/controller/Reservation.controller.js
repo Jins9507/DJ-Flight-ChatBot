@@ -17,9 +17,10 @@ sap.ui.define([
                 this.getView().setModel(new JSONModel({
                     locationFrom : "",
                     locationTo  :  "",
-                    personnel  : ""
+                    Passenger  : ""
                 }), "routerModel");
                 this.getOwnerComponent().getRouter().getRoute("Reservation").attachMatched(this._onRouteMatched, this);
+
             },
             _onRouteMatched: function(oEvent){
                 var oArgs = oEvent.getParameter("arguments"),
@@ -34,11 +35,28 @@ sap.ui.define([
                     oRouterModel.setProperty("/locationFromName", oArgs['?query'].locationFromName);
                     oRouterModel.setProperty("/locationTo", oArgs['?query'].locationTo);
                     oRouterModel.setProperty("/locationToName", oArgs['?query'].locationToName);
-                    oRouterModel.setProperty("/personnel", oArgs['?query'].personnel);
+                    oRouterModel.setProperty("/Passenger", oArgs['?query'].Passenger);
                 }
                 oJSON = this.getView().getModel('testModel').getProperty("/testTable/"+ oRouterModel.getData().sPath);
-                this.getView().setModel(oJSON, 'selectedRow');
+                this.getOwnerComponent().getModel("reserveModel").setProperty("/total", oJSON.price * oArgs['?query'].Passenger);
+                this.getOwnerComponent().getModel("reserveModel").setProperty("/reserve",oJSON );
+                // this.getView().setModel(oJSON, 'reserveModel');
 
             },
+            formatDate: function(oDate) {
+                var sReturnValue = "";
+                if (oDate) {
+                   sReturnValue = oDate.slice(0, 4) + "-" + oDate.slice(4, 6) + "-" + oDate.slice(6, 8);
+                }
+                return sReturnValue;
+            },
+
+            formatTime: function(oTime) {
+                var sReturnValue = "";
+                if (oTime) {
+                   sReturnValue = oTime.slice(0, 2) + ":" + oTime.slice(2, 4);
+                }
+                return sReturnValue;
+            },                
         });
     });

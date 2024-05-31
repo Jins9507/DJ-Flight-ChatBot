@@ -49,7 +49,7 @@ sap.ui.define([
                 this.getView().setModel(new JSONModel({
                     locationFrom : "",
                     locationTo  :  "",
-                    personnel  : ""
+                    Passenger  : ""
                 }), "routerModel");
                 this.getOwnerComponent().getRouter().getRoute("CheckFlight").attachMatched(this._onRouteMatched, this);
             },
@@ -91,7 +91,7 @@ sap.ui.define([
                     oRouterModel.setProperty("/locationFromName", oArgs['?query'].locationFromName);
                     oRouterModel.setProperty("/locationTo", oArgs['?query'].locationTo);
                     oRouterModel.setProperty("/locationToName", oArgs['?query'].locationToName);
-                    oRouterModel.setProperty("/personnel", oArgs['?query'].personnel);
+                    oRouterModel.setProperty("/Passenger", oArgs['?query'].Passenger);
                 }
 
                 var aFilter = [];
@@ -210,7 +210,7 @@ sap.ui.define([
                         locationFromName: oRouterModel.getData().locationFromName,
                         locationTo      : oRouterModel.getData().locationTo,
                         locationToName  : oRouterModel.getData().locationToName,
-                        personnel       : oRouterModel.getData().personnel
+                        Passenger       : oRouterModel.getData().Passenger
                     }                
                 });                    
             }
