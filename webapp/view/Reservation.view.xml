@@ -37,10 +37,14 @@
 							nextStep="PaymentTypeStep"
 							title="Confirm Flight Information"
 							icon="sap-icon://flight">
-							<ObjectHeader
+							<!-- <ObjectHeader
+								icon="/images/testImage1.jpg"
+								iconDensityAware="false"
+								imageShape="Circle"
+								responsive="true"
+								intro="와~ 가격보소~"
 								title="Total Cost"
 								titleLevel="H1"
-								icon="sap-icon://travel-expense"
 								number="{
 									parts:[{path:'reserveModel>/total'},{path:'reserveModel>/reserve/currency'}],
 									type: 'sap.ui.model.type.Currency',
@@ -52,9 +56,31 @@
 								<attributes>
 									<ObjectAttribute text="This is the total cost of your journey"/>
 								</attributes>
-							</ObjectHeader>
+							</ObjectHeader> -->
+							<ObjectHeader
+								icon="/images/OliverSSam.jpg"
+								imageShape="Circle"
+								title="Total Cost"
+								responsive="true"
+								intro="This is the total cost of your journey"
+								titleLevel="H1"
+								number="{
+									parts:[{path:'reserveModel>/total'},{path:'reserveModel>/reserve/currency'}],
+									type: 'sap.ui.model.type.Currency',
+									formatOptions: {showMeasure: false}
+								}"
+								numberUnit="{reserveModel>/reserve/currency}"	
+								numberState="Information"	
+								>
+							</ObjectHeader>							
 							<form:SimpleForm
 								layout="ResponsiveGridLayout">
+								<Label labelFor="rbg" text="Cabin Class" class="sapUiLargeMarginTop"/>								
+								<RadioButtonGroup id="rbg" columns="5" valueState="Information" class="sapUiMediumMarginTop" select="onRbgSelect">
+									<RadioButton id="RB3-1" text="Economy Class [ {reserveModel>/reserve/price} {reserveModel>/reserve/currency} ]"/>
+									<RadioButton id="RB3-2" text="Business Class [ {reserveModel>/reserve/price_b} {reserveModel>/reserve/currency} ]" />
+									<RadioButton id="RB3-3" text="First Class [ {reserveModel>/reserve/price_f} {reserveModel>/reserve/currency} ]" />
+								</RadioButtonGroup>								
 								<Label text="Flight number"/>
 								<Text text="{reserveModel>/reserve/carrid}{reserveModel>/reserve/connid}"/>								
 								<Label text="From"/>
@@ -74,7 +100,7 @@
 						<WizardStep
 							id="PaymentTypeStep"
 							title="Payment type"
-							subsequentSteps="CreditCardStep, BankAccountStep, CashOnDeliveryStep"
+							subsequentSteps="CreditCardStep, BankAccountStep"
 							complete="goToPaymentStep"
 							icon="sap-icon://money-bills">
 							<Text class="sapUiSmallMarginBottom"
@@ -84,7 +110,7 @@
 								justifyContent="Center"
 								width="100%">
 								<SegmentedButton selectionChange="setPaymentMethod" id="paymentMethodSelection"
-								                 selectedKey="{/selectedPayment}">
+								                 selectedKey="{reserveModel>/payment}">
 									<items>
 										<SegmentedButtonItem key="Credit Card" icon="sap-icon://credit-card"
 										                     text="Credit card"/>
@@ -97,7 +123,7 @@
 						<WizardStep
 							id="CreditCardStep"
 							title="Credit card info"
-							nextStep="BillingStep"
+							nextStep="PassengerStep"
 							activate="checkCreditCardStep"
 							icon="sap-icon://credit-card">
 							<MessageStrip text="Enter at least 3 symbols for credit card name."/>
@@ -105,20 +131,20 @@
 								editable="true"
 								layout="ColumnLayout">
 								<Label text="Name on card" required="true"/>
-								<Input value="{/CreditCard/Name}" liveChange="checkCreditCardStep"
+								<Input value="{reserveModel>/card/name}" liveChange="checkCreditCardStep"
 								       valueLiveUpdate="true"/>
 								<Label text="Card number"/>
-								<Input value="{/CardNumber}"/>
+								<Input value="{reserveModel>/card/number}"/>
 								<Label text="Security code"/>
-								<Input value="{/CreditCard/SecurityCode}"/>
+								<Input value="{reserveModel>/card/securityCode}"/>
 								<Label text="Expiration date"/>
-								<DatePicker value="{/CreditCard/Expire}"/>
+								<DatePicker value="{reserveModel>/card/expire}"/>
 							</form:SimpleForm>
 						</WizardStep>
 						<WizardStep
 							id="BankAccountStep"
 							title="Beneficial bank info"
-							nextStep="BillingStep"
+							nextStep="PassengerStep"
 							icon="sap-icon://official-service">
 							<Panel>
 								<headerToolbar>
@@ -130,68 +156,50 @@
 									defaultSpan="L6 M6 S10"
 									hSpacing="2">
 									<Label text="Beneficiary Name" design="Bold"/>
-									<Label text="Singapore Hardware e-Commerce LTD"/>
+									<Label text="DJ Flight e-Commerce Service LTD"/>
 									<Label text="Beneficiary Bank" design="Bold"/>
-									<Label text="CITY BANK, SINGAPORE BRANCH"/>
+									<Label text="GUKMIN BANK, KOREA BRANCH"/>
 									<Label text="Beneficiary Account Number" design="Bold"/>
 									<Label text="06110702027218"/>
 									<Label text="Bank Phone Number" design="Bold"/>
-									<Label text="+65-6224-2622"/>
+									<Label text="+8210-6224-2622"/>
 									<Label text="Bank Email Address" design="Bold"/>
-									<Label text="customerservice@citybank.com"/>
+									<Label text="customerservice@gukmin.co.kr"/>
 								</layout:Grid>
 							</Panel>
 						</WizardStep>
 						<WizardStep
-							id="CashOnDeliveryStep"
-							title="Cash on delivery info"
-							nextStep="BillingStep"
-							activate="checkCashOnDeliveryStep"
-							icon="sap-icon://money-bills">
-							<MessageStrip text="Enter at least 3 symbols for first name."/>
-							<form:SimpleForm
-								editable="true"
-								layout="ColumnLayout">
-								<Label text="First Name" required="true"/>
-								<Input value="{/CashOnDelivery/FirstName}" liveChange="checkCashOnDeliveryStep"
-								       valueLiveUpdate="true"/>
-								<Label text="Last Name"/>
-								<Input value="{/CashOnDelivery/LastName}"/>
-								<Label text="Phone Number"/>
-								<Input value="{/CashOnDelivery/Phone Number}"/>
-								<Label text="Email address"/>
-								<Input value="{/CashOnDelivery/Email}"/>
-							</form:SimpleForm>
-						</WizardStep>
-						<WizardStep
-							id="BillingStep"
-							title="Billing address"
+							id="PassengerStep"
+							title="Passenger Infomation"
 							subsequentSteps="DeliveryAddressStep, DeliveryTypeStep"
 							activate="checkBillingStep"
 							complete="billingAddressComplete"
-							icon="sap-icon://sales-quote">
+							icon="sap-icon://person-placeholder">
 							<MessageStrip text="Enter at least 3 symbols for each required field"/>
 							<form:SimpleForm
 								editable="true"
 								layout="ColumnLayout">
-								<Label text="Delivery address is different"/>
-								<CheckBox
-									selected="{/differentDeliveryAddress}"
-									select="setDifferentDeliveryAddress"/>
-								<Label text="Address" required="true"/>
-								<Input value="{/BillingAddress/Address}" liveChange="checkBillingStep"
+								<Label text="Passport No." required="true"/>
+								<Input value="{reserveModel>/passenger/passportNo}" liveChange="checkBillingStep"
 								       valueLiveUpdate="true"/>
-								<Label text="City" required="true"/>
-								<Input value="{/BillingAddress/City}" liveChange="checkBillingStep"
+								<Label text="Name" required="true"/>
+								<Input value="{reserveModel>/passenger/name}" liveChange="checkBillingStep"
 								       valueLiveUpdate="true"/>
-								<Label text="Zip Code" required="true"/>
-								<Input value="{/BillingAddress/ZipCode}" liveChange="checkBillingStep"
-								       valueLiveUpdate="true"/>
+								<Label text="Birth" required="true"/>
+								<DatePicker value="{reserveModel>/passenger/birth}"/>
+								<Label text="Gender" required="true"/>
+								<ComboBox
+									items="{
+										path: 'genderCombo>/text',
+										sorter: { path: 'genderCombo>/text' }
+									}">
+									<core:Item key="{reserveModel>/passenger/passportNo}" text="{reserveModel>/passenger/passportNo}" />
+								</ComboBox>															
 								<Label text="Country" required="true"/>
-								<Input value="{/BillingAddress/Country}" liveChange="checkBillingStep"
+								<Input value="{reserveModel>/passenger/country}" liveChange="checkBillingStep"
 								       valueLiveUpdate="true"/>
-								<Label text="Note" required="false"/>
-								<TextArea rows="8" value="{/BillingAddress/Note}"/>
+								<Label text="Passport Expire Date" required="true"/>
+								<DatePicker value="{reserveModel>/passenger/expire}"/>								   
 							</form:SimpleForm>
 						</WizardStep>
 						<WizardStep
@@ -238,10 +246,10 @@
 				<f:footer>
 					<OverflowToolbar>
 						<Button icon="sap-icon://message-popup"
-						        text="{messagesLength}"
+						        text="현재 3 명의 고객이 해당 항공편 스케줄을 보고 있습니다."
 						        type="Emphasized"
 						        press="onMessageButtonPress"
-						        visible="{= !!$messagesLength}}"/>
+						        visible="true"/>
 						<ToolbarSpacer/>
 						<Button type="Accept" text="Accept"/>
 						<Button type="Reject" text="Reject"/>

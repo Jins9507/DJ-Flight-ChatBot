@@ -12,6 +12,7 @@ sap.ui.define([
         return Controller.extend("dj.djchatbot.controller.Reservation", {
             onInit: function () {
                 var oTestModel = new JSONModel();
+                this._wizard = this.byId("ShoppingCartWizard");
                 oTestModel = this.getOwnerComponent().getModel("testModel");
                 this.getView().setModel(oTestModel, 'testModel');
                 this.getView().setModel(new JSONModel({
@@ -19,9 +20,32 @@ sap.ui.define([
                     locationTo  :  "",
                     Passenger  : ""
                 }), "routerModel");
+                this.getView().setModel(new JSONModel([
+                        {
+                            key : "M",
+                            text  : "Male"
+                        },
+                        {
+                            key : "F",
+                            text  : "Female"
+                        }
+                ]), "genderCombo");       
+                // this.getView().setModel(new JSONModel({
+                //     "gender" : [
+                //         {
+                //             key : "M",
+                //             text  : "Male"
+                //         },
+                //         {
+                //             key : "F",
+                //             text  : "Female"
+                //         }
+                //     ]
+                // }), "genderCombo");                
                 this.getOwnerComponent().getRouter().getRoute("Reservation").attachMatched(this._onRouteMatched, this);
 
             },
+
             _onRouteMatched: function(oEvent){
                 var oArgs = oEvent.getParameter("arguments"),
                     oView = this.getView(),
@@ -40,9 +64,23 @@ sap.ui.define([
                 oJSON = this.getView().getModel('testModel').getProperty("/testTable/"+ oRouterModel.getData().sPath);
                 this.getOwnerComponent().getModel("reserveModel").setProperty("/total", oJSON.price * oArgs['?query'].Passenger);
                 this.getOwnerComponent().getModel("reserveModel").setProperty("/reserve",oJSON );
-                // this.getView().setModel(oJSON, 'reserveModel');
-
+                this.getOwnerComponent().getModel("reserveModel").setProperty("/payment", "");
+                this.getOwnerComponent().getModel("reserveModel").setProperty("/card", {
+                    name : "",
+                    number : "",
+                    securityCode : "",
+                    expire : ""
+                });
+                this.getOwnerComponent().getModel("reserveModel").setProperty("/passenger", {
+                    passportNo : "",
+                    gender : "",
+                    name : "",
+                    country : "",
+                    birth : "",
+                    expire : ""
+                });                
             },
+
             formatDate: function(oDate) {
                 var sReturnValue = "";
                 if (oDate) {
@@ -57,6 +95,45 @@ sap.ui.define([
                    sReturnValue = oTime.slice(0, 2) + ":" + oTime.slice(2, 4);
                 }
                 return sReturnValue;
-            },                
+            },      
+
+            onRbgSelect: function (oEvent) {
+                var iIndex = oEvent.getParameter("selectedIndex"),
+                    oView = this.getView(),
+                    oReserve = this.getOwnerComponent().getModel("reserveModel").getData(),
+                    oRouterModel = oView.getModel("routerModel").getData(),
+                    oGroup = oEvent.getSource();
+
+                if (iIndex === 0)
+                    this.getOwnerComponent().getModel("reserveModel").setProperty("/total", oReserve.reserve.price * oRouterModel.Passenger);
+                else if (iIndex === 1)
+                    this.getOwnerComponent().getModel("reserveModel").setProperty("/total", oReserve.reserve.price_b * oRouterModel.Passenger);
+                else if (iIndex === 2)
+                    this.getOwnerComponent().getModel("reserveModel").setProperty("/total", oReserve.reserve.price_f * oRouterModel.Passenger);  
+            },   
+
+            goToPaymentStep: function () {
+                var selectedKey = this.getOwnerComponent().getModel("reserveModel").getProperty("/payment");
+    
+                switch (selectedKey) {
+                    case "Bank Transfer":
+                        this.byId("PaymentTypeStep").setNextStep(this.getView().byId("BankAccountStep"));
+                        break;
+                    case "Credit Card":
+                    default:
+                        this.byId("PaymentTypeStep").setNextStep(this.getView().byId("CreditCardStep"));
+                        break;
+                }
+            },
+
+            checkCreditCardStep: function () {
+                var cardName = this.getOwnerComponent().getModel("reserveModel").getProperty("/card/name") || "";
+                if (cardName.length < 3) {
+                    this._wizard.invalidateStep(this.byId("CreditCardStep"));
+                } else {
+                    this._wizard.validateStep(this.byId("CreditCardStep"));
+                }
+            },
+              
         });
     });
