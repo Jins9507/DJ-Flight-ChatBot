@@ -20,7 +20,6 @@ sap.ui.define([
                 this._wizard = this.byId("ShoppingCartWizard");
                 this._oNavContainer = this.byId("navContainer")
                 this._oDynamicPage = this.getPage();
-
                 oTestModel = this.getOwnerComponent().getModel("testModel");
                 this.getView().setModel(oTestModel, 'testModel');
                 this.getView().setModel(new JSONModel({
@@ -55,7 +54,7 @@ sap.ui.define([
                 oJSON = this.getView().getModel('testModel').getProperty("/testTable/"+ oRouterModel.getData().sPath);
                 this.getOwnerComponent().getModel("reserveModel").setProperty("/total", oJSON.price * oArgs['?query'].Passenger);
                 this.getOwnerComponent().getModel("reserveModel").setProperty("/reserve",oJSON );
-                this.getOwnerComponent().getModel("reserveModel").setProperty("/payment", "");
+                this.getOwnerComponent().getModel("reserveModel").setProperty("/payment", "Credit Card");
                 this.getOwnerComponent().getModel("reserveModel").setProperty("/card", {
                     name : "",
                     number : "",
