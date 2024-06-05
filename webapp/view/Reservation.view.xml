@@ -13,7 +13,7 @@
 		<pages>
 			<f:DynamicPage
 				id="dynamicPage"
-				toggleHeaderOnTitleClick="{/titleClickable}"
+				toggleHeaderOnTitleClick="true"
 				stickySubheaderProvider="ShoppingCartWizard"
 				class="sapUiNoContentPadding"
 				showFooter="true">
@@ -25,7 +25,7 @@
 						</f:heading>
 					</f:DynamicPageTitle>
 				</f:title>
-				<!-- DynamicPage Header -->
+				<!-- DynamicPage Header --> 
 				<f:content>
 					<Wizard id="ShoppingCartWizard"
 					        class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
@@ -171,74 +171,37 @@
 						<WizardStep
 							id="PassengerStep"
 							title="Passenger Infomation"
-							subsequentSteps="DeliveryAddressStep, DeliveryTypeStep"
-							activate="checkBillingStep"
-							complete="billingAddressComplete"
+							activate="checkPassengerStep"
 							icon="sap-icon://person-placeholder">
-							<MessageStrip text="Enter at least 3 symbols for each required field"/>
+							<MessageStrip text="Enter at least 3 symbols for each required field. You only need to enter the representative passenger information."/>
 							<form:SimpleForm
 								editable="true"
 								layout="ColumnLayout">
 								<Label text="Passport No." required="true"/>
-								<Input value="{reserveModel>/passenger/passportNo}" liveChange="checkBillingStep"
+								<Input value="{reserveModel>/passenger/passportNo}" liveChange="checkPassengerStep"
 								       valueLiveUpdate="true"/>
 								<Label text="Name" required="true"/>
-								<Input value="{reserveModel>/passenger/name}" liveChange="checkBillingStep"
+								<Input value="{reserveModel>/passenger/name}" liveChange="checkPassengerStep"
 								       valueLiveUpdate="true"/>
 								<Label text="Birth" required="true"/>
-								<DatePicker value="{reserveModel>/passenger/birth}"/>
+								<DatePicker value="{reserveModel>/passenger/birth}" valueFormat = "yyyy-MM-dd"
+                                            displayFormat = "yyyy-MM-dd" change="checkPassengerStep"/>
 								<Label text="Gender" required="true"/>
-								<ComboBox
-									items="{
-										path: 'genderCombo>/text',
-										sorter: { path: 'genderCombo>/text' }
-									}">
-									<core:Item key="{reserveModel>/passenger/passportNo}" text="{reserveModel>/passenger/passportNo}" />
-								</ComboBox>															
+								<Select
+									id="genderFrom"
+									forceSelection="false"
+									selectedKey="{genderCombo>/selectedKey}"
+									change="checkPassengerStep"
+									items="{genderCombo>/selectItems}">
+									<core:Item key="{genderCombo>itemText}" text="{genderCombo>itemText}" />
+								</Select>									
 								<Label text="Country" required="true"/>
-								<Input value="{reserveModel>/passenger/country}" liveChange="checkBillingStep"
+								<Input value="{reserveModel>/passenger/country}" liveChange="checkPassengerStep"
 								       valueLiveUpdate="true"/>
 								<Label text="Passport Expire Date" required="true"/>
-								<DatePicker value="{reserveModel>/passenger/expire}"/>								   
+								<DatePicker value="{reserveModel>/passenger/expire}" valueFormat = "yyyy-MM-dd"
+                                            displayFormat = "yyyy-MM-dd" change="checkPassengerStep"/>								   
 							</form:SimpleForm>
-						</WizardStep>
-						<WizardStep
-							id="DeliveryAddressStep"
-							title="Delivery address"
-							nextStep="DeliveryTypeStep"
-							icon="sap-icon://sales-quote">
-							<form:SimpleForm
-								editable="true"
-								layout="ColumnLayout">
-								<Label text="Address"/>
-								<Input/>
-								<Label text="City"/>
-								<Input/>
-								<Label text="Zip Code"/>
-								<Input/>
-								<Label text="Country"/>
-								<Input/>
-								<Label text="Note"/>
-								<TextArea rows="8"/>
-							</form:SimpleForm>
-						</WizardStep>
-						<WizardStep
-							id="DeliveryTypeStep"
-							title="Delivery type"
-							icon="sap-icon://insurance-car">
-							<Text class="sapUiSmallMarginBottom"
-							      text="Standard delivery will be delivered within 5 workdays. Be aware, that around high-season sales, standard delivery may take up to one additional day. Express delivery is delivered within 36 hours. A service fee of 5.49 EUR is charged for Express delivery on a workday. For a holiday delivery, the service fee is 8,00 EUR. Express delivery is only available for inland deliveries. All service fees vary for deliveries  abroad."/>
-							<HBox
-								alignItems="Center"
-								justifyContent="Center"
-								width="100%">
-								<SegmentedButton selectedKey="{/selectedDeliveryMethod}">
-									<items>
-										<SegmentedButtonItem key="Standard Delivery" text="Standard"/>
-										<SegmentedButtonItem key="Express Delivery" text="Express"/>
-									</items>
-								</SegmentedButton>
-							</HBox>
 						</WizardStep>
 					</Wizard>
 				</f:content>
@@ -251,39 +214,53 @@
 						        press="onMessageButtonPress"
 						        visible="true"/>
 						<ToolbarSpacer/>
-						<Button type="Accept" text="Accept"/>
-						<Button type="Reject" text="Reject"/>
+						<!-- <Button type="Accept" text="Accept"/> -->
+						<Button type="Reject" text="Cancel"/>
 					</OverflowToolbar>
 				</f:footer>
 			</f:DynamicPage>
 			<Page id="wizardBranchingReviewPage" showHeader="false">
 				<content>
 					<form:SimpleForm
-						title="1. List of products"
+						title="1. Flight Shchedule"
 						minWidth="1024"
 						editable="false"
 						layout="ResponsiveGridLayout">
-						<List items="{/ProductCollection}">
-							<StandardListItem
-								title="{Name}"
-								type="Active"
-								description="{Description}"
-								icon="{ProductPicUrl}"
-								info="{Price} {CurrencyCode}"
-								iconDensityAware="false"
-								iconInset="false"/>
-						</List>
+
+						<Label text="Passenger"/>
+						<Text text="{reserveModel>/passenger/name} et al."/>			
+						<Label text="Flight number"/>
+						<Text text="{reserveModel>/reserve/carrid}{reserveModel>/reserve/connid}"/>								
+						<Label text="From"/>
+						<Text text="{reserveModel>/reserve/cityfrom}"/>
+						<Label text="To"/>
+						<Text text="{reserveModel>/reserve/cityto}"/>						
+						<Label text="Flight Date"/>
+						<Text text="{ path : 'reserveModel>/reserve/fldate', formatter : '.formatDate' }"/>		
+						<Label text="Departure Time"/>
+						<Text text="{ path : 'reserveModel>/reserve/deptime', formatter : '.formatTime' }"/>		
+						<Label text="Arrival Time"/>
+						<Text text="{ path : 'reserveModel>/reserve/arrtime', formatter : '.formatTime' }"/>	
+						<Label text="Passenger"/>
+						<Text text="{routerModel>/Passenger}"/>	
+
 						<ObjectHeader
-							title="Total"
-							number="{/ProductsTotalPrice}"
-							numberUnit="EUR">
-							<attributes>
-								<ObjectAttribute
-									press="handleNavBackToList"
-									active="true"
-									text="Edit"/>
-							</attributes>
-						</ObjectHeader>
+							icon="sap-icon://travel-expense"
+							imageShape="Circle"
+							title="Total Cost"
+							responsive="true"
+							layout="ResponsiveGridLayout"
+							intro="This is the total cost of your journey"
+							titleLevel="H1"
+							number="{
+								parts:[{path:'reserveModel>/total'},{path:'reserveModel>/reserve/currency'}],
+								type: 'sap.ui.model.type.Currency',
+								formatOptions: {showMeasure: false}
+							}"
+							numberUnit="{reserveModel>/reserve/currency}"	
+							numberState="Information"	
+							>
+						</ObjectHeader>					
 					</form:SimpleForm>
 					<form:SimpleForm
 						title="2. Payment type"
@@ -292,32 +269,32 @@
 						layout="ResponsiveGridLayout">
 						<form:content>
 							<Label text="Chosen payment type"/>
-							<Text text="{/selectedPayment}"/>
+							<Text text="{reserveModel>/payment}"/>
 							<Link press="handleNavBackToPaymentType" text="Edit"/>
 						</form:content>
 					</form:SimpleForm>
 
 					<form:SimpleForm
-						visible="{= ${/selectedPayment}==='Credit Card' ? true : false}"
+						visible="{= ${reserveModel>/payment}==='Credit Card' ? true : false}"
 						title="3. Credit Card payment"
 						minWidth="1024"
 						editable="false"
 						layout="ResponsiveGridLayout">
 						<form:content>
 							<Label text="Name on card"/>
-							<Text text="{/CreditCard/Name}"/>
+							<Text text="{reserveModel>/card/name}"/>
 							<Label text="Card number"/>
-							<Text text="{/CardNumber}"/>
+							<Text text="{reserveModel>/card/number}"/>
 							<Label text="Security code"/>
-							<Text text="{/CreditCard/SecurityCode}"/>
+							<Text text="{reserveModel>/card/securityCode}"/>
 							<Label text="Expiration date"/>
-							<Text text="{/CreditCard/Expire}"/>
+							<Text text="{reserveModel>/card/expire}"/>
 							<Link press="handleNavBackToCreditCard" text="Edit"/>
 						</form:content>
 					</form:SimpleForm>
 
 					<form:SimpleForm
-						visible="{= ${/selectedPayment}==='Bank Transfer' ? true : false}"
+						visible="{= ${reserveModel>/payment}==='Bank Transfer' ? true : false}"
 						title="3. Bank Transfer"
 						minWidth="1024"
 						editable="false"
@@ -341,60 +318,31 @@
 					</form:SimpleForm>
 
 					<form:SimpleForm
-						visible="{= ${/selectedPayment}==='Cash on Delivery' ? true : false}"
-						title="3. Cash on delivery"
+						title="4. Passenger Infomation"
 						minWidth="1024"
 						editable="false"
 						layout="ResponsiveGridLayout">
-						<form:content>
-							<Label text="First Name"/>
-							<Text text="{/CashOnDelivery/FirstName}"/>
-							<Label text="Last Name"/>
-							<Text text="{/CashOnDelivery/LastName}"/>
-							<Label text="Phone number"/>
-							<Text text="{/CashOnDelivery/Phone Number}"/>
-							<Label text="Email address"/>
-							<Text text="{/CashOnDelivery/Email}"/>
-							<Link press="handleNavBackToCashOnDelivery" text="Edit"/>
-						</form:content>
-					</form:SimpleForm>
-
-					<form:SimpleForm
-						title="4. Billing Address"
-						minWidth="1024"
-						editable="false"
-						layout="ResponsiveGridLayout">
-						<form:content>
-							<Label text="Address"/>
-							<Text text="{/BillingAddress/Address}"/>
-							<Label text="City"/>
-							<Text text="{/BillingAddress/City}"/>
-							<Label text="Zip Code"/>
-							<Text text="{/BillingAddress/ZipCode}"/>
+						<form:content>								
+							<Label text="Passport No."/>
+							<Text text="{reserveModel>/passenger/passportNo}"/>
+							<Label text="Name"/>
+							<Text text="{reserveModel>/passenger/name}"/>
+							<Label text="Gender"/>
+							<Text text="{genderCombo>/selectedKey}"/>
 							<Label text="Country"/>
-							<Text text="{/BillingAddress/Country}"/>
-							<Label text="Note"/>
-							<Text text="{/BillingAddress/Note}"/>
-							<Link press="handleNavBackToBillingAddress" text="Edit"/>
-						</form:content>
-					</form:SimpleForm>
-
-					<form:SimpleForm
-						title="5. Delivery type"
-						minWidth="1024"
-						editable="false"
-						layout="ResponsiveGridLayout">
-						<form:content>
-							<Label text="Chosen delivery type"/>
-							<Text text="{/selectedDeliveryMethod}"/>
-							<Link press="handleNavBackToDeliveryType" text="Edit"/>
+							<Text text="{reserveModel>/passenger/country}"/>
+							<Label text="Birth"/>
+							<Text text="{reserveModel>/passenger/birth}"/>							
+							<Label text="Passport Expire Date"/>
+							<Text text="{reserveModel>/passenger/expire}"/>							
+							<Link press="handleNavBackToPassenger" text="Edit"/>
 						</form:content>
 					</form:SimpleForm>
 				</content>
 				<footer>
 					<Bar>
 						<contentRight>
-							<Button text="Submit" press="handleWizardSubmit"/>
+							<Button text="Submit" press="handleWizardSubmit"/> 
 							<Button text="Cancel" press="handleWizardCancel"/>
 						</contentRight>
 					</Bar>
