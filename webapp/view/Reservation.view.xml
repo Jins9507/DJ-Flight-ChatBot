@@ -77,7 +77,7 @@
 								layout="ResponsiveGridLayout">
 								<Label labelFor="rbg" text="Cabin Class" class="sapUiLargeMarginTop"/>								
 								<RadioButtonGroup id="rbg" columns="5" valueState="Information" class="sapUiMediumMarginTop" select="onRbgSelect">
-									<RadioButton id="RB3-1" text="Economy Class [ {reserveModel>/reserve/price} {reserveModel>/reserve/currency} ]"/>
+									<RadioButton id="RB3-1" text="Economy Class [ {reserveModel>/reserve/price} {reserveModel>/reserve/currency} ]" />
 									<RadioButton id="RB3-2" text="Business Class [ {reserveModel>/reserve/price_b} {reserveModel>/reserve/currency} ]" />
 									<RadioButton id="RB3-3" text="First Class [ {reserveModel>/reserve/price_f} {reserveModel>/reserve/currency} ]" />
 								</RadioButtonGroup>								
@@ -215,7 +215,7 @@
 						        visible="true"/>
 						<ToolbarSpacer/>
 						<!-- <Button type="Accept" text="Accept"/> -->
-						<Button type="Reject" text="Cancel"/>
+						<Button type="Reject" text="Cancel" press="onCancelButtonPress"/>
 					</OverflowToolbar>
 				</f:footer>
 			</f:DynamicPage>
@@ -342,8 +342,8 @@
 				<footer>
 					<Bar>
 						<contentRight>
-							<Button text="Submit" press="handleWizardSubmit"/> 
-							<Button text="Cancel" press="handleWizardCancel"/>
+							<Button text="Submit" press="onSubmitButtonPress"/> 
+							<Button text="Cancel" press="onCancelButtonPress"/>
 						</contentRight>
 					</Bar>
 				</footer>

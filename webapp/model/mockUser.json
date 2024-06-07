@@ -1,0 +1,10 @@
+{
+    "userId"       : "M000001",
+    "userName"     : "Oliver SSam",
+    "class"        : "gold",
+    "subscription" : "vip",
+    "numOfTravel"  : "21",
+    "mileage"      : "3910",
+    "profileIcon"  : "/images/OliverSSam.jpg",
+    "dummy": []
+}

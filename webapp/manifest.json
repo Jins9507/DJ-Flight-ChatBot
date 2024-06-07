@@ -26,7 +26,15 @@
       "testModel": {
         "uri": "model/testModel.json",
         "type": "JSON"
-      }
+      },
+      "mockUser": {
+        "uri": "model/mockUserjson",
+        "type": "JSON"
+      },
+      "filterModel": {
+        "uri": "model/filterModel.json",
+        "type": "JSON"
+      }            
     }
   },
   "sap.ui": {
@@ -75,6 +83,14 @@
         "dataSource": "testModel",
         "type": "sap.ui.model.json.JSONModel"
       },
+      "filterModel": {
+        "dataSource": "filterModel",
+        "type": "sap.ui.model.json.JSONModel"
+      },
+      "mockUser": {
+        "dataSource": "mockUser",
+        "type": "sap.ui.model.json.JSONModel"
+      },      
       "reserveModel": {
         "type": "sap.ui.model.json.JSONModel"
       },

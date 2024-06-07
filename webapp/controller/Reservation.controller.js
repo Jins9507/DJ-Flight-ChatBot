@@ -41,7 +41,6 @@ sap.ui.define([
                     oView = this.getView(),
                     oJSON = new JSONModel(),
                     oRouterModel = oView.getModel("routerModel");
-
                 if (!oArgs["?query"]) return;
                 if (oArgs['?query']) {
                     oRouterModel.setProperty("/sPath", oArgs['?query'].sPath);
@@ -195,6 +194,46 @@ sap.ui.define([
                 this._oNavContainer.attachAfterNavigate(fnAfterNavigate);
                 this._oNavContainer.to(this._oDynamicPage);
             },
-              
+            
+            onCancelButtonPress: function () {
+                var oWizard = this.byId("ShoppingCartWizard"),
+                    oFirstStep = oWizard.getSteps()[0];
+                var oRouterModel = this.getView().getModel("routerModel");
+                this.getView().byId("dynamicPage").setBusy(true);
+                var oConfirm = MessageBox.confirm("Would you like to go to the Flight Schedule? Anything you write will be lost.", {
+                    title: "Confirm",                                    // default                                      // default
+                    actions: [ sap.m.MessageBox.Action.OK,
+                               sap.m.MessageBox.Action.CANCEL ],         // default
+                    emphasizedAction: sap.m.MessageBox.Action.OK,        // default
+                    onClose: function(sAction) {
+                        if(sAction == "OK"){
+                          
+                          oWizard.discardProgress(oFirstStep);
+                          // scroll to top
+                          oWizard.goToStep(oFirstStep);
+                          this.byId("rbg").setSelectedIndex(0);
+                        //   window.location.reload();  // 새로고침
+                        //   this.byId("rbg").setProperty("selectedIndex", 0);
+                        //   this.byId("RB3-1").setProperty("selected", true);
+                          this._oNavContainer.to(this.byId("dynamicPage"));
+                          
+                          this.getOwnerComponent().getRouter().navTo("CheckFlight", {                
+                            "?query": {
+                                locationFrom: oRouterModel.getProperty("/locationFrom"),
+                                locationFromName: oRouterModel.getProperty("/locationFromName"),
+                                locationTo: oRouterModel.getProperty("/locationTo"),
+                                locationToName: oRouterModel.getProperty("/locationToName"),
+                                Passenger: oRouterModel.getProperty("/Passenger")
+                            }               
+                          })
+                          this.getView().byId("dynamicPage").setBusy(false); 
+                        };
+                    }.bind(this), 
+                });
+            },
+
+            onSubmitButtonPress: function () {
+
+            },
         });
     });

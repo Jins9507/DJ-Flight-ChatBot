@@ -7,6 +7,7 @@
 	xmlns:t="sap.ui.table"
 	xmlns:f="sap.f" 	
     xmlns="sap.m"
+    xmlns:fb="sap.ui.comp.filterbar"    
     width="100%"
 	>
 		<f:DynamicPage id="dynamicPageId" headerExpanded="{/headerExpanded}" toggleHeaderOnTitleClick="{/titleClickable}">
@@ -18,7 +19,7 @@
 					</f:heading>
 					<f:breadcrumbs>
 						<Breadcrumbs>
-							<Link text="Search" press = "onNavigationBackPress"/>
+							<Link text="Home" press = "onNavigationBackPress"/>
 							<Link text="My Reservation" />
 						</Breadcrumbs>
 					</f:breadcrumbs>
@@ -46,19 +47,13 @@
 					</f:content>
 					<f:actions>
 						<Button
-								text="Edit"
+								text="My Reservation"
 								type="Emphasized"
 								press="toggleAreaPriority"/>
 						<Button
-								text="Delete"
-								type="Transparent"/>
-						<Button
-								text="Copy"
-								type="Transparent"/>
-						<Button
-								text="Toggle Footer"
+								text="Clear"
 								type="Transparent"
-								press="onToggleFooter"/>
+                                press="toggleAreaPriority"/>
 						<Button
 								icon="sap-icon://action"
 								type="Transparent"/>
@@ -85,17 +80,74 @@
 			<f:header>
 				<f:DynamicPageHeader pinnable="true">
 					<layout:HorizontalLayout allowWrapping="true">
-						<layout:VerticalLayout class="sapUiMediumMarginEnd">
+						<!-- <layout:VerticalLayout class="sapUiMediumMarginEnd">
 							<ObjectAttribute title="From" text="{routerModel>/locationFromName}"/>
 							<ObjectAttribute title="To" text="{routerModel>/locationToName}"/>
 							<ObjectAttribute title="Passenger" text="{routerModel>/Passenger}"/>
+						</layout:VerticalLayout> -->
+						<layout:VerticalLayout class="sapUiMediumMarginEnd">
+							<ObjectAttribute title="From"/>
+                            <ObjectStatus text="{routerModel>/locationFromName}" state="Information"/>
 						</layout:VerticalLayout>
-
+                        <layout:VerticalLayout class="sapUiMediumMarginEnd">
+							<ObjectAttribute title="To"/>
+                            <ObjectStatus text="{routerModel>/locationToName}" state="Information"/>
+						</layout:VerticalLayout>
+                        <layout:VerticalLayout class="sapUiMediumMarginEnd">
+							<ObjectAttribute title="Passenger"/>
+                            <ObjectStatus text="{routerModel>/Passenger}" state="Information"/>
+						</layout:VerticalLayout>
 						<layout:VerticalLayout>
 							<ObjectAttribute title="Availability"/>
-							<ObjectStatus text="Total {=${testModel>/testTable}.length} Schedule Available" state="Success"/>
+							<ObjectStatus text="Total {=${testModel>/testTable}.length} Schedule Available in DJ Flight" state="Success"/>
 						</layout:VerticalLayout>
 					</layout:HorizontalLayout>
+                    <fb:FilterBar id="filterbar" persistencyKey="myPersKey" useToolbar="false" search=".onSearch" filterChange=".onFilterChange" afterVariantLoad=".onAfterVariantLoad">
+                        <fb:filterGroupItems>
+                            <fb:FilterGroupItem name="Name" label="Starting Point" groupName="Group1" visibleInFilterBar="true">
+                                <fb:control>
+                                    <MultiComboBox
+                                        name="starting_point"
+                                        selectionChange=".onSelectionChange"
+                                        items="{
+                                            path: '/ProductNames',
+                                            templateShareable: true
+                                        }"
+                                    >
+                                        <core:Item key="{key}" text="{name}"/>
+                                    </MultiComboBox>
+                                </fb:control>
+                            </fb:FilterGroupItem>
+                            <fb:FilterGroupItem name="Category" label="Destination" groupName="Group1" visibleInFilterBar="true">
+                                <fb:control>
+                                    <MultiComboBox
+                                        name="destination"
+                                        selectionChange=".onSelectionChange"
+                                        items="{
+                                            path: '/ProductCategories',
+                                            templateShareable: true
+                                        }"
+                                    >
+                                        <core:Item key="{key}" text="{name}"/>
+                                    </MultiComboBox>
+                                </fb:control>
+                            </fb:FilterGroupItem>
+                            <fb:FilterGroupItem name="SupplierName" label="Passenger" groupName="Group1" visibleInFilterBar="true">
+                                <fb:control>
+                                    <MultiComboBox
+                                        name="passenger"
+                                        selectionChange=".onSelectionChange"
+                                        items="{
+                                            path: '/ProductSuppliers',
+                                            templateShareable: true
+                                        }"
+                                    >
+                                        <core:Item key="{key}" text="{name}"/>
+                                    </MultiComboBox>
+                                </fb:control>
+                            </fb:FilterGroupItem>
+                        </fb:filterGroupItems>
+                    </fb:FilterBar>
 				</f:DynamicPageHeader>
 			</f:header>
 			<f:content>

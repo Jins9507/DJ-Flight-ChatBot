@@ -37,6 +37,39 @@
                 id="flightFrom"
                 class="sapUiSmallMargin"
                 forceSelection="false"
+                selectedKey="{filterModel>/LocationFrom}"
+                items="{
+                    path: 'filterModel>/StartingPoint',
+                    sorter: { path: 'filterModel>Country' }
+                }">
+                <core:Item key="{filterModel>AirportID}" text="{filterModel>Country}" />
+            </Select>				
+            <tnt:InfoLabel id="l2" text="Destination" renderMode="Loose" colorScheme="5" icon="sap-icon://journey-arrive" class="sapUiSmallMargin"/>	
+            <Select
+                id="flightTo"
+                class="sapUiSmallMargin"
+                forceSelection="false"
+                selectedKey="{filterModel>/LocationTo}"
+                items="{
+                    path: 'filterModel>/Destination',
+                    sorter: { path: 'filterModel>Country' }
+                }">
+                <core:Item key="{filterModel>AirportID}" text="{filterModel>Country}" />
+            </Select>
+            <tnt:InfoLabel id="l3" text="Passenger" renderMode="Loose" colorScheme="5" icon="sap-icon://group" class="sapUiSmallMargin"/>						
+            <Input
+                id="Passenger"
+                class="sapUiSmallMargin"
+                required = "true"
+                value="{filterModel>/Passenger}"
+                type = "Number"
+                editable="true"	
+                width="30%"/>	
+            <!-- <tnt:InfoLabel id="l1" text="Starting point" renderMode="Loose" colorScheme="5"  icon="sap-icon://journey-depart" class="sapUiLargeMarginBegin sapUiSmallMargin"/>	
+            <Select
+                id="flightFrom"
+                class="sapUiSmallMargin"
+                forceSelection="false"
                 selectedKey="{/LocationFrom}"
                 items="{
                     path: '/StartingPoint',
@@ -64,10 +97,10 @@
                 value="{/Passenger}"
                 type = "Number"
                 editable="true"	
-                width="30%"/>	
+                width="30%"/>	 -->
             <Button
                 text="Search"
-                press=".onSearch"
+                press=".onSearchFilter"
                 class="sapUiSmallMargin sapUiSmallMarginEnd"/>
         </FlexBox>		
         <!-- 임시방편, 실제로는 search 시에 filter로 read하여 값이 있는지 확인 -->
