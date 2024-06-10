@@ -20,66 +20,7 @@ sap.ui.define([
                 );
                 // this.getView().byId("page").getAggregation("_navMaster").setWidth("90%");
 
-                var selectLocationData = {
-                    "Passenger": "",
-                    "LocationFrom": "FRA",
-                    "LocationTo"  : "JFK",
-                    "StartingPoint": [
-                        {
-                            "AirportID": "JFK",
-                            "Country": "New York"
-                        },
-                        {
-                            "AirportID": "SFO",
-                            "Country": "San Francisco"
-                        },
-                        {
-                            "AirportID": "FCO",
-                            "Country": "Rome"
-                        },
-                        {
-                            "AirportID": "TYO",
-                            "Country": "Tokyo"
-                        },
-                        {
-                            "AirportID": "FRA",
-                            "Country": "Frankfurt"
-                        },
-                        {
-                            "AirportID": "SIN",
-                            "Country": "Singapore"
-                        }
-                    ],
-                    "Destination": [
-                        {
-                            "AirportID": "JFK",
-                            "Country": "New York"
-                        },
-                        {
-                            "AirportID": "SFO",
-                            "Country": "San Francisco"
-                        },
-                        {
-                            "AirportID": "FCO",
-                            "Country": "Rome"
-                        },
-                        {
-                            "AirportID": "TYO",
-                            "Country": "Tokyo"
-                        },
-                        {
-                            "AirportID": "FRA",
-                            "Country": "Frankfurt"
-                        },
-                        {
-                            "AirportID": "SIN",
-                            "Country": "Singapore"
-                        }
-                    ]
-                };
-                var ofilterModel = new JSONModel(this.getOwnerComponent().getModel("filterModel").getData());
-                var oModel = new JSONModel(selectLocationData);
-                this.getView().setModel(oModel);
+
             },
 
             onSearchFilter: function(oEvent){
@@ -91,11 +32,11 @@ sap.ui.define([
                     indexF = $.inArray(oLocationFrom, $.map(oDestination, function(n){
                         return n.AirportID
                     })),
-                    resultF = this.getView().getModel().getProperty("/Destination/"+indexF),
+                    resultF = ofilterModel.getProperty("/Destination/"+indexF),
                     indexT = $.inArray(oLocationTo, $.map(oDestination, function(n){
                         return n.AirportID
                     })),
-                    resultT = this.getView().getModel().getProperty("/Destination/"+indexT);
+                    resultT = ofilterModel.getProperty("/Destination/"+indexT);
 
                 if( oPassenger == 0 ){
                     var msg = 'Please Check the Passenger';
@@ -229,29 +170,6 @@ sap.ui.define([
                         }                
                     });
                 }
-            },
-
-            onChangePassenger: function(oEvent){
-                // if(!oEvent.getParameter('value')){
-                //     this.getView().setValueState(sap.ui.core.ValueState.Error);
-                // }
-                // else{
-                //     this.getView().setValueState(sap.ui.core.ValueState.None);
-                // }           
-                
-                // oManager = new sap.ui.commons.TextField({
-                // id : "Passenger",
-                // required : true,
-                // change : function() {
-                //         if (this.getValue() === "") {
-                //             this.setValueState(sap.ui.core.ValueState.Error);  // if the field is empty after change, it will go red
-                //         }
-            
-                //         else {
-                //             this.setValueState(sap.ui.core.ValueState.None); // if the field is not empty after change, the value state (if any) is removed
-                //         }
-                //     }
-                // })
             }
         });
     });

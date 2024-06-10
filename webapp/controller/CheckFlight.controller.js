@@ -5,12 +5,13 @@ sap.ui.define([
     "sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
     "sap/m/MessageBox",
-    "sap/ui/core/Fragment"    
+    "sap/ui/core/Fragment",
+    "sap/m/MessageToast"      
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, ODataModel, JSONModel, Filter, FilterOperator, MessageBox, Fragment) {
+    function (Controller, ODataModel, JSONModel, Filter, FilterOperator, MessageBox, Fragment, MessageToast) {
         "use strict";
 
         return Controller.extend("dj.djchatbot.controller.CheckFlight", {
@@ -46,19 +47,14 @@ sap.ui.define([
                 var oTestModel = new JSONModel();
                 oTestModel = this.getOwnerComponent().getModel("testModel");
                 this.getView().setModel(oTestModel, 'testModel');
-                this.getView().setModel(new JSONModel({
-                    locationFrom : "",
-                    locationTo  :  "",
-                    Passenger  : ""
-                }), "routerModel");
+                this.getView().setModel(new JSONModel({}), "routerModel");
                 this.getOwnerComponent().getRouter().getRoute("CheckFlight").attachMatched(this._onRouteMatched, this);
             },
 
             _onRouteMatched: function(oEvent){
                 var oArgs = oEvent.getParameter("arguments"),
                     oView = this.getView(),
-                    oRouterModel = oView.getModel("routerModel"),
-                    oTestModel = oView.getModel("testModel");
+                    oRouterModel = oView.getModel("routerModel");
                 // $.ajax({
                 //     url: "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/$metadata",
                 //     type: "GET",
@@ -87,18 +83,18 @@ sap.ui.define([
 
                 if (!oArgs["?query"]) return;
                 if (oArgs['?query']) {
-                    oRouterModel.setProperty("/locationFrom", oArgs['?query'].locationFrom);
-                    oRouterModel.setProperty("/locationFromName", oArgs['?query'].locationFromName);
-                    oRouterModel.setProperty("/locationTo", oArgs['?query'].locationTo);
-                    oRouterModel.setProperty("/locationToName", oArgs['?query'].locationToName);
+                    oRouterModel.setProperty("/LocationFrom", oArgs['?query'].locationFrom);
+                    oRouterModel.setProperty("/LocationFromName", oArgs['?query'].locationFromName);
+                    oRouterModel.setProperty("/LocationTo", oArgs['?query'].locationTo);
+                    oRouterModel.setProperty("/LocationToName", oArgs['?query'].locationToName);
                     oRouterModel.setProperty("/Passenger", oArgs['?query'].Passenger);
                 }
 
                 var aFilter = [];
                 var oTable = this.getView().byId("schduleTable");
 
-                aFilter.push(new Filter("airpfrom", FilterOperator.EQ, oRouterModel.getProperty("/locationFrom")));
-                aFilter.push(new Filter("airpto", FilterOperator.EQ, oRouterModel.getProperty("/locationTo")));
+                aFilter.push(new Filter("airpfrom", FilterOperator.EQ, oRouterModel.getProperty("/LocationFrom")));
+                aFilter.push(new Filter("airpto", FilterOperator.EQ, oRouterModel.getProperty("/LocationTo")));
                 var oBinding = oTable.getBinding("rows");
                 oBinding.filter(aFilter);    
                 // oTestModel.setProperty("/tableL", oBinding.iLength);
@@ -154,33 +150,47 @@ sap.ui.define([
                 });
             },
 
+            onFilterSearch: function(oEvent){
+                var ofilterModel = this.getOwnerComponent().getModel("filterModel");
+                var aFilter = [];
+                var oTable = this.getView().byId("schduleTable");
+
+                var oDestination = ofilterModel.getProperty("/Destination"),
+                    oLocationFrom = ofilterModel.getProperty("/LocationFrom"),
+                    oLocationTo = ofilterModel.getProperty("/LocationTo"),
+                    oPassenger = ofilterModel.getProperty("/Passenger"),
+                    indexF = $.inArray(oLocationFrom, $.map(oDestination, function(n){
+                        return n.AirportID
+                    })),
+                    resultF = ofilterModel.getProperty("/Destination/"+indexF),
+                    indexT = $.inArray(oLocationTo, $.map(oDestination, function(n){
+                        return n.AirportID
+                    })),
+                    resultT = ofilterModel.getProperty("/Destination/"+indexT);
+
+                if( oPassenger == 0 ){
+                    var msg = 'Please Check the Passenger';
+                    MessageToast.show(msg);
+                    return;
+                }
+
+                aFilter.push(new Filter("airpfrom", FilterOperator.EQ, oLocationFrom));
+                aFilter.push(new Filter("airpto", FilterOperator.EQ, oLocationTo));
+                var oBinding = oTable.getBinding("rows");
+                oBinding.filter(aFilter);   
+
+                this.getOwnerComponent().getModel("testModel").setProperty("/tableL", oBinding.iLength); 
+                this.getView().getModel("routerModel").setProperty("/LocationFromName", resultF.Country); 
+                this.getView().getModel("routerModel").setProperty("/LocationToName", resultT.Country); 
+                this.getView().getModel("routerModel").setProperty("/Passenger", oPassenger); 
+
+            },
+
             onCellClick: function(oEvent) {
                 var oRecord = oEvent.getParameter('row'),
                     oData = this.getView().getModel('testModel').getProperty(oRecord.oBindingContexts.testModel.sPath),
                     oRouterModel = this.getView().getModel("routerModel");
-                    // test = this.getView();
-                        // var oXhr = new ODataXhrService();
-                        // oXhr.ajax({
-                        //     url: "srv-api/odata/v4/sp.sm.es.SupplierWelcome.supplierPotenRegMgtV4Service/UpdatePotenStepProc",
-                        //     method: "POST",
-                        //     data: JSON.stringify(input)
-                        // }).then(function(e){
-                        //     this.getList();
-                        //     this.getRouter().navTo("detailPage2", {                
-                        //         "?query": {
-                        //             action: "view",
-                        //             tenant_id: oData == undefined ? this.getSessionTenantId() : oData.tenant_id,
-                        //             supplier_code: oData == undefined ? null : oData.supplier_code,
-                        //             createMode: false,
-                        //             detailMode: vDetailMode,
-                        //             editMode: false,
-                        //             biz_request_attch_group_number: oData == undefined ? null : oData.biz_request_attch_group_number,
-                        //             supplierApprovalStatusCode: "RV"
-                        //         }                
-                        //     });
-                        // }.bind(this)).catch(function(e){
-                        //     // MessageToast.show(this.getModel("I18N").getText("/ECM01507"));
-                        // }.bind(this));
+
                 var path_num = oRecord.oBindingContexts.testModel.sPath.split("/")[2];       
                 this.getOwnerComponent().getRouter().navTo("Reservation", {                
                     "?query": {
@@ -206,11 +216,11 @@ sap.ui.define([
                         // last_changed_at : oData.last_changed_at,
                         // sPath       : oRecord.oBindingContexts.testModel.sPath,
                         sPath           : path_num,
-                        locationFrom    : oRouterModel.getData().locationFrom,
-                        locationFromName: oRouterModel.getData().locationFromName,
-                        locationTo      : oRouterModel.getData().locationTo,
-                        locationToName  : oRouterModel.getData().locationToName,
-                        Passenger       : oRouterModel.getData().Passenger
+                        LocationFrom    : oData.airpfrom,
+                        LocationFromName: oData.cityfrom,
+                        LocationTo      : oData.airpto,
+                        LocationToName  : oData.cityto,
+                        Passenger       : oRouterModel.getProperty("/Passenger")
                     }                
                 });                    
             }

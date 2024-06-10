@@ -34,8 +34,8 @@
 					</f:snappedTitleOnMobile>
 					<f:content>
 						<OverflowToolbar>
-							<GenericTag text="Gold Member"
-								status="Warning"
+							<GenericTag text = "{= ${mockUser>/class}?${mockUser>/class}:'Non-Member'}"
+								status="{= ${mockUser>/class} === 'Gold Member' ? 'Warning' : (${mockUser>/class} === 'Silver Member' ? 'None' : 'Success')}"
 								press="onPressOpenPopover"
 								design="StatusIconHidden">
 								<ObjectNumber number="|"
@@ -87,11 +87,11 @@
 						</layout:VerticalLayout> -->
 						<layout:VerticalLayout class="sapUiMediumMarginEnd">
 							<ObjectAttribute title="From"/>
-                            <ObjectStatus text="{routerModel>/locationFromName}" state="Information"/>
+                            <ObjectStatus text="{routerModel>/LocationFromName}" state="Information"/>
 						</layout:VerticalLayout>
                         <layout:VerticalLayout class="sapUiMediumMarginEnd">
 							<ObjectAttribute title="To"/>
-                            <ObjectStatus text="{routerModel>/locationToName}" state="Information"/>
+                            <ObjectStatus text="{routerModel>/LocationToName}" state="Information"/>
 						</layout:VerticalLayout>
                         <layout:VerticalLayout class="sapUiMediumMarginEnd">
 							<ObjectAttribute title="Passenger"/>
@@ -102,48 +102,57 @@
 							<ObjectStatus text="Total {=${testModel>/testTable}.length} Schedule Available in DJ Flight" state="Success"/>
 						</layout:VerticalLayout>
 					</layout:HorizontalLayout>
-                    <fb:FilterBar id="filterbar" persistencyKey="myPersKey" useToolbar="false" search=".onSearch" filterChange=".onFilterChange" afterVariantLoad=".onAfterVariantLoad">
+                    <fb:FilterBar id="filterbar" persistencyKey="myPersKey" useToolbar="false" search=".onFilterSearch" showFilterConfiguration="false" filterChange=".onFilterChange" afterVariantLoad=".onAfterVariantLoad">
                         <fb:filterGroupItems>
-                            <fb:FilterGroupItem name="Name" label="Starting Point" groupName="Group1" visibleInFilterBar="true">
+                            <fb:FilterGroupItem name="sPoint" label="Starting Point" groupName="Group1" visibleInFilterBar="true">
                                 <fb:control>
-                                    <MultiComboBox
+                                    <Select
                                         name="starting_point"
-                                        selectionChange=".onSelectionChange"
+                                        selectedKey="{filterModel>/LocationFrom}"
                                         items="{
-                                            path: '/ProductNames',
+                                            path: 'filterModel>/StartingPoint',
+                                            sorter: { path: 'filterModel>Country' },
                                             templateShareable: true
                                         }"
                                     >
-                                        <core:Item key="{key}" text="{name}"/>
-                                    </MultiComboBox>
+                                        <core:Item key="{filterModel>AirportID}" text="{filterModel>Country}"/>
+                                    </Select>
+                                    <!-- <MultiComboBox
+                                        name="starting_point"
+                                        selectionChange=".onSelectionChange"
+                                        items="{
+                                            path: 'filterModel>/StartingPoint',
+                                            sorter: { path: 'filterModel>Country' },
+                                            templateShareable: true
+                                        }"
+                                    >
+                                        <core:Item key="{filterModel>AirportID}" text="{filterModel>Country}"/>
+                                    </MultiComboBox> -->
                                 </fb:control>
                             </fb:FilterGroupItem>
                             <fb:FilterGroupItem name="Category" label="Destination" groupName="Group1" visibleInFilterBar="true">
                                 <fb:control>
-                                    <MultiComboBox
+                                    <Select
                                         name="destination"
-                                        selectionChange=".onSelectionChange"
+                                        selectedKey="{filterModel>/LocationTo}"
                                         items="{
-                                            path: '/ProductCategories',
+                                            path: 'filterModel>/Destination',
+                                            sorter: { path: 'filterModel>Country' },
                                             templateShareable: true
                                         }"
                                     >
-                                        <core:Item key="{key}" text="{name}"/>
-                                    </MultiComboBox>
+                                        <core:Item key="{filterModel>AirportID}" text="{filterModel>Country}"/>
+                                    </Select>
                                 </fb:control>
                             </fb:FilterGroupItem>
                             <fb:FilterGroupItem name="SupplierName" label="Passenger" groupName="Group1" visibleInFilterBar="true">
                                 <fb:control>
-                                    <MultiComboBox
-                                        name="passenger"
-                                        selectionChange=".onSelectionChange"
-                                        items="{
-                                            path: '/ProductSuppliers',
-                                            templateShareable: true
-                                        }"
-                                    >
-                                        <core:Item key="{key}" text="{name}"/>
-                                    </MultiComboBox>
+                                    <Input
+                                        id="Passenger"
+                                        value="{filterModel>/Passenger}"
+                                        type = "Number"
+                                        editable="true"	
+                                        width="30%"/>	
                                 </fb:control>
                             </fb:FilterGroupItem>
                         </fb:filterGroupItems>

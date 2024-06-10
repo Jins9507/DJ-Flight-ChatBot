@@ -28,7 +28,7 @@
         "type": "JSON"
       },
       "mockUser": {
-        "uri": "model/mockUserjson",
+        "uri": "model/mockUser.json",
         "type": "JSON"
       },
       "filterModel": {

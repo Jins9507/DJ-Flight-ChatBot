@@ -15,7 +15,6 @@
 			text="Where To Go?"
 			title="Where To Go?"
 			class="sapUiLargeMarginTop sapUiLargeMarginBegin"/>
-
 		<layout:VerticalLayout
 				width="100%"
 				class="gridWrapper">
@@ -65,39 +64,6 @@
                 type = "Number"
                 editable="true"	
                 width="30%"/>	
-            <!-- <tnt:InfoLabel id="l1" text="Starting point" renderMode="Loose" colorScheme="5"  icon="sap-icon://journey-depart" class="sapUiLargeMarginBegin sapUiSmallMargin"/>	
-            <Select
-                id="flightFrom"
-                class="sapUiSmallMargin"
-                forceSelection="false"
-                selectedKey="{/LocationFrom}"
-                items="{
-                    path: '/StartingPoint',
-                    sorter: { path: 'Country' }
-                }">
-                <core:Item key="{AirportID}" text="{Country}" />
-            </Select>				
-            <tnt:InfoLabel id="l2" text="Destination" renderMode="Loose" colorScheme="5" icon="sap-icon://journey-arrive" class="sapUiSmallMargin"/>	
-            <Select
-                id="flightTo"
-                class="sapUiSmallMargin"
-                forceSelection="false"
-                selectedKey="{/LocationTo}"
-                items="{
-                    path: '/Destination',
-                    sorter: { path: 'Country' }
-                }">
-                <core:Item key="{AirportID}" text="{Country}" />
-            </Select>
-            <tnt:InfoLabel id="l3" text="Passenger" renderMode="Loose" colorScheme="5" icon="sap-icon://group" class="sapUiSmallMargin"/>						
-            <Input
-                id="Passenger"
-                class="sapUiSmallMargin"
-                required = "true"
-                value="{/Passenger}"
-                type = "Number"
-                editable="true"	
-                width="30%"/>	 -->
             <Button
                 text="Search"
                 press=".onSearchFilter"

@@ -22,11 +22,7 @@ sap.ui.define([
                 this._oDynamicPage = this.getPage();
                 oTestModel = this.getOwnerComponent().getModel("testModel");
                 this.getView().setModel(oTestModel, 'testModel');
-                this.getView().setModel(new JSONModel({
-                    locationFrom : "",
-                    locationTo  :  "",
-                    Passenger  : ""
-                }), "routerModel");
+                this.getView().setModel(new JSONModel({}), "routerModel");
                 this.getView().setModel(new JSONModel({
                     selectedKey: "Male", // 편의상 키를 텍스트로 대체 야메야메~
                     selectItems: [
@@ -44,10 +40,10 @@ sap.ui.define([
                 if (!oArgs["?query"]) return;
                 if (oArgs['?query']) {
                     oRouterModel.setProperty("/sPath", oArgs['?query'].sPath);
-                    oRouterModel.setProperty("/locationFrom", oArgs['?query'].locationFrom);
-                    oRouterModel.setProperty("/locationFromName", oArgs['?query'].locationFromName);
-                    oRouterModel.setProperty("/locationTo", oArgs['?query'].locationTo);
-                    oRouterModel.setProperty("/locationToName", oArgs['?query'].locationToName);
+                    oRouterModel.setProperty("/LocationFrom", oArgs['?query'].LocationFrom);
+                    oRouterModel.setProperty("/LocationFromName", oArgs['?query'].LocationFromName);
+                    oRouterModel.setProperty("/LocationTo", oArgs['?query'].LocationTo);
+                    oRouterModel.setProperty("/LocationToName", oArgs['?query'].LocationToName);
                     oRouterModel.setProperty("/Passenger", oArgs['?query'].Passenger);
                 }
                 oJSON = this.getView().getModel('testModel').getProperty("/testTable/"+ oRouterModel.getData().sPath);
@@ -219,10 +215,10 @@ sap.ui.define([
                           
                           this.getOwnerComponent().getRouter().navTo("CheckFlight", {                
                             "?query": {
-                                locationFrom: oRouterModel.getProperty("/locationFrom"),
-                                locationFromName: oRouterModel.getProperty("/locationFromName"),
-                                locationTo: oRouterModel.getProperty("/locationTo"),
-                                locationToName: oRouterModel.getProperty("/locationToName"),
+                                locationFrom: oRouterModel.getProperty("/LocationFrom"),
+                                locationFromName: oRouterModel.getProperty("/LocationFromName"),
+                                locationTo: oRouterModel.getProperty("/LocationTo"),
+                                locationToName: oRouterModel.getProperty("/LocationToName"),
                                 Passenger: oRouterModel.getProperty("/Passenger")
                             }               
                           })
@@ -233,7 +229,7 @@ sap.ui.define([
             },
 
             onSubmitButtonPress: function () {
-
+                // 여기서 예약번호 채번 후 DB로 저장?  예약 테이블로 관리하면 될 듯
             },
         });
     });
