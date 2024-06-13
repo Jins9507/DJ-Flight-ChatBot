@@ -265,7 +265,7 @@ sap.ui.define([
                 var oRecord = oEvent.getParameter('row'),
                     oData = this.getView().getModel('testModel').getProperty(oRecord.oBindingContexts.testModel.sPath),
                     oRouterModel = this.getView().getModel("routerModel");
-
+                dupFlag = false;
                 this.checkReserve(oData.fldate, oData.carrid, oData.connid);
                 var path_num = oRecord.oBindingContexts.testModel.sPath.split("/")[2];     
 
@@ -318,7 +318,6 @@ sap.ui.define([
                 // if ($.inArray('foo', array) == -1 && $.inArray('bar', array) == -1) {
                 //     // Neither foo or bar in array
                 // }
-
 
                 if(indexR !== -1){
                     resultR = oReserveTable.getProperty("/reservation/"+indexR);

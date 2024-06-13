@@ -67,7 +67,8 @@ sap.ui.define([
                     country : "",
                     birth : "",
                     expire : ""
-                });                
+                });    
+                this.byId("rbg").setSelectedIndex(0);            
             },
 
             getPage: function () {
