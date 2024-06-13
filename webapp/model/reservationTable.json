@@ -1,0 +1,139 @@
+{
+    "reservation": [
+        {
+            "reserveID": "id-1718068756299-99",
+            "userID" : "M000001",
+            "password" : "1234",
+            "carrid"  : "LH",
+            "connid"  : "0400",       
+            "cityfrom" : "FRANKFURT", 
+            "airpfrom" : "FRA", 
+            "cityto" : "NEW YORK", 
+            "airpto" : "JFK", 
+            "fldate" : "20240530",
+            "deptime" : "143000",
+            "arrtime" : "170600",
+            "passenger" : "4",
+            "seatsClass" : "Economy", 
+            "totalPrice" : "520.00",
+            "currency" : "USD",
+            "paidFlag" : "true",
+            "cancelFlag" : "false",
+            "completeFlag" : "false",
+            "payment" : "Credit Card",
+            "cardName" : "Oliver SSAM",
+            "cardNumber" : "2312-4441-2123-0083",
+            "cardSecureCode" : "370",
+            "cardExpire" : "20301230",
+            "reserveDate" : "20240612",
+            "passengerInfo" : [
+                {
+                    "passportNo" : "M2323244",
+                    "gender" : "Male",
+                    "name" : "Oliver SSAM",
+                    "country" : "USA",
+                    "birth" : "19801010",
+                    "expire" : "20301111"                    
+                },
+                {
+                    "passportNo" : "M2311111",
+                    "gender" : "Female",
+                    "name" : "Olivia Kim",
+                    "country" : "Korea",
+                    "birth" : "19870606",
+                    "expire" : "20291211"                    
+                }
+            ]
+        },
+        {
+            "reserveID": "test",
+            "userID" : "M000001",
+            "password" : "1234",
+            "carrid"  : "UA",
+            "connid"  : "0941",       
+            "cityfrom" : "FRANKFURT", 
+            "airpfrom" : "FRA", 
+            "cityto" : "SAN FRANCISCO", 
+            "airpto" : "SFO", 
+            "fldate" : "20240530",
+            "deptime" : "143000",
+            "arrtime" : "170600",
+            "passenger" : "4",
+            "seatsClass" : "Economy", 
+            "totalPrice" : "520.00",
+            "currency" : "USD",
+            "paidFlag" : "true",
+            "cancelFlag" : "false",
+            "completeFlag" : "false",
+            "payment" : "Credit Card",
+            "cardName" : "Oliver SSAM",
+            "cardNumber" : "2312-4441-2123-0083",
+            "cardSecureCode" : "370",
+            "cardExpire" : "20301230",
+            "reserveDate" : "20240612",
+            "passengerInfo" : [
+                {
+                    "passportNo" : "M2323244",
+                    "gender" : "Male",
+                    "name" : "Oliver SSAM",
+                    "country" : "USA",
+                    "birth" : "19801010",
+                    "expire" : "20301111"                    
+                },
+                {
+                    "passportNo" : "M2311111",
+                    "gender" : "Female",
+                    "name" : "Olivia Kim",
+                    "country" : "Korea",
+                    "birth" : "19870606",
+                    "expire" : "20291211"                    
+                }
+            ]
+        },
+        {
+            "reserveID": "id-1718068756299-98",
+            "userID" : "M000001",
+            "password" : "1234",
+            "carrid"  : "UA",
+            "connid"  : "3517",            
+            "cityfrom" : "FRANKFURT", 
+            "airpfrom" : "FRA", 
+            "cityto" : "NEW YORK", 
+            "airpto" : "JFK", 
+            "fldate" : "20240531",
+            "deptime" : "143000",
+            "arrtime" : "170600",
+            "passenger" : "4",
+            "seatsClass" : "Economy", 
+            "totalPrice" : "520.00",
+            "currency" : "USD",
+            "paidFlag" : "true",
+            "cancelFlag" : "true",
+            "completeFlag" : "true",
+            "payment" : "Credit Card",
+            "cardName" : "Oliver SSAM",
+            "cardNumber" : "2312-4441-2123-0083",
+            "cardSecureCode" : "370",
+            "cardExpire" : "20301230",
+            "reserveDate" : "20240612",
+            "passengerInfo" : [
+                {
+                    "passportNo" : "M2323244",
+                    "gender" : "Male",
+                    "name" : "Oliver SSAM",
+                    "country" : "USA",
+                    "birth" : "19801010",
+                    "expire" : "20301111"                    
+                },
+                {
+                    "passportNo" : "M2311111",
+                    "gender" : "Female",
+                    "name" : "Olivia Kim",
+                    "country" : "Korea",
+                    "birth" : "19870606",
+                    "expire" : "20291211"                    
+                }
+            ]
+        }             
+    ]
+}

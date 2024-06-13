@@ -34,7 +34,11 @@
       "filterModel": {
         "uri": "model/filterModel.json",
         "type": "JSON"
-      }            
+      },
+      "reservationTable": {
+        "uri": "model/reservationTable.json",
+        "type": "JSON"
+      }                 
     }
   },
   "sap.ui": {
@@ -79,6 +83,13 @@
           "bundleName": "dj.djchatbot.i18n.i18n"
         }
       },
+      "reserveSearchModel2": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "reservationId" : "",
+          "password" : ""
+        }
+      },
       "testModel": {
         "dataSource": "testModel",
         "type": "sap.ui.model.json.JSONModel"
@@ -92,6 +103,10 @@
         "type": "sap.ui.model.json.JSONModel"
       },      
       "reserveModel": {
+        "type": "sap.ui.model.json.JSONModel"
+      },
+      "reservationTable": {
+        "dataSource": "reservationTable",
         "type": "sap.ui.model.json.JSONModel"
       },
       "mainModel": {
@@ -142,6 +157,13 @@
           "target": [
               "Reservation"
           ]
+        },
+        {
+          "pattern": "schedule/reviewReservation/{?query}",
+          "name": "ReviewReservation",
+          "target": [
+              "ReviewReservation"
+          ]
         }
       ],
       "targets": {
@@ -165,6 +187,13 @@
           "clearControlAggregation": false,           
           "viewId": "Reservation",      				
 					"viewName": "Reservation"
+        },
+        "ReviewReservation": {  
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,           
+          "viewId": "ReviewReservation",      				
+					"viewName": "ReviewReservation"
         }
       }
     },

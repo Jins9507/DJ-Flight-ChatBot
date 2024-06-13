@@ -6,14 +6,16 @@ sap.ui.define([
 	"sap/ui/model/FilterOperator",
     "sap/m/MessageBox",
     "sap/ui/core/Fragment",
-    "sap/m/MessageToast"      
+    "sap/m/MessageToast",
+    "sap/m/Dialog",      
+    "sap/m/Input"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, ODataModel, JSONModel, Filter, FilterOperator, MessageBox, Fragment, MessageToast) {
+    function (Controller, ODataModel, JSONModel, Filter, FilterOperator, MessageBox, Fragment, MessageToast, Dialog, Input) {
         "use strict";
-
+        var dupFlag = false;
         return Controller.extend("dj.djchatbot.controller.CheckFlight", {
             onInit: function () {
                 // var test = new ODataModel(
@@ -48,6 +50,10 @@ sap.ui.define([
                 oTestModel = this.getOwnerComponent().getModel("testModel");
                 this.getView().setModel(oTestModel, 'testModel');
                 this.getView().setModel(new JSONModel({}), "routerModel");
+                // this.getView().setModel(new JSONModel({
+                //     reservationId : "",
+                //     password : ""
+                // }), "reserveSearchModel");
                 this.getOwnerComponent().getRouter().getRoute("CheckFlight").attachMatched(this._onRouteMatched, this);
             },
 
@@ -99,6 +105,8 @@ sap.ui.define([
                 oBinding.filter(aFilter);    
                 // oTestModel.setProperty("/tableL", oBinding.iLength);
                 this.getOwnerComponent().getModel("testModel").setProperty("/tableL", oBinding.iLength);
+                this.getOwnerComponent().getModel("filterModel").setProperty("/LocationFrom", oRouterModel.getProperty("/LocationFrom"));
+                this.getOwnerComponent().getModel("filterModel").setProperty("/LocationTo", oRouterModel.getProperty("/LocationTo"));
                 // Validation 메세지 초기화
                 sap.ui.getCore().getMessageManager().removeAllMessages();
             },
@@ -137,6 +145,7 @@ sap.ui.define([
                     oPopover.openBy(oSourceControl);
                 });
             },
+
             onNavigationBackPress: function(oEvent){
                 var oConfirm = MessageBox.confirm("Would you like to go to the Main screen?", {
                     title: "Confirm",                                    // default                                      // default
@@ -148,6 +157,72 @@ sap.ui.define([
                           this.getOwnerComponent().getRouter().navTo("RouteMain");
                     }.bind(this), 
                 });
+            },
+            
+            onDialogPress: function(oEvent){
+                var oView = this.getView();
+
+                if (!this.oReserveDialog) {
+                    this.oReserveDialog = Fragment.load({
+                        id: oView.getId(),
+                        name: "dj.djchatbot.view.ReserveDialog",
+                        controller: this
+                    }).then(function (oDialog){
+                        oDialog.setModel(oView.getModel());
+                        return oDialog;
+                    });
+                }
+
+                this.oReserveDialog.then(function(oDialog){
+                    oDialog.open();
+                }.bind(this));                
+            },
+
+            onDialogSearch: function(){
+                var vReservationNumber = this.getView().byId("reserveInput").getProperty("value")
+                var vPassword = this.getView().byId("passwordInput").getProperty("value")
+
+                var resultR;
+
+                var oUserModel = this.getOwnerComponent().getModel("mockUser");
+                var oReserveTable = this.getOwnerComponent().getModel("reservationTable"); // DB read 대용
+
+                var indexR = $.inArray(vReservationNumber, $.map(oReserveTable.getProperty("/reservation"), function(n){
+                    return n.reserveID
+                }));
+
+                if(indexR !== -1){
+                    resultR = oReserveTable.getProperty("/reservation/"+indexR);
+                    if(resultR.password === vPassword){
+                        if(resultR.cancelFlag === "true"){
+                            this.getView().byId("reserveInput").setValue("");
+                            this.getView().byId("passwordInput").setValue("");
+                            MessageToast.show("The reservation number has already been canceled."); 
+                        }else{
+                            this.getOwnerComponent().getRouter().navTo("ReviewReservation", {                
+                                "?query": {
+                                    reserveID   : vReservationNumber,
+                                    createFlag  : "false"
+                                }                
+                            });     
+                        }
+                    }else{
+                        this.getView().byId("reserveInput").setValue("");
+                        this.getView().byId("passwordInput").setValue("");
+                        MessageToast.show("Please confirm your password or reservation number."); 
+                    } 
+                }else{
+                    this.getView().byId("reserveInput").setValue("");
+                    this.getView().byId("passwordInput").setValue("");
+                    MessageToast.show("Please confirm your password or reservation number."); 
+                }                
+            },
+
+            onDialogClose: function(oEvent){
+                // oEvent.getSource().destroy();
+                this.getView().byId("reserveInput").setValue("");
+                this.getView().byId("passwordInput").setValue("");
+                oEvent.getSource().getParent().close();
             },
 
             onFilterSearch: function(oEvent){
@@ -191,38 +266,67 @@ sap.ui.define([
                     oData = this.getView().getModel('testModel').getProperty(oRecord.oBindingContexts.testModel.sPath),
                     oRouterModel = this.getView().getModel("routerModel");
 
-                var path_num = oRecord.oBindingContexts.testModel.sPath.split("/")[2];       
-                this.getOwnerComponent().getRouter().navTo("Reservation", {                
-                    "?query": {
-                        // carrid    : oData.carrid,
-                        // connid    : oData.connid,
-                        // cityfrom  : oData.cityfrom,
-                        // airpfrom  : oData.airpfrom,
-                        // cityto    : oData.cityto,
-                        // airpto    : oData.airpto,
-                        // fldate    : oData.fldate,
-                        // deptime   : oData.deptime,
-                        // arrtime   : oData.arrtime,
-                        // seatocc   : oData.seatocc,
-                        // seatocc_b : oData.seatocc_b,
-                        // seatocc_f : oData.seatocc_f,
-                        // price     : oData.price,
-                        // price_b   : oData.price_b,
-                        // price_f   : oData.price_f,
-                        // currency  : oData.currency,
-                        // created_by : oData.created_by, 
-                        // created_at : oData.created_at, 
-                        // last_changed_by : oData.last_changed_by, 
-                        // last_changed_at : oData.last_changed_at,
-                        // sPath       : oRecord.oBindingContexts.testModel.sPath,
-                        sPath           : path_num,
-                        LocationFrom    : oData.airpfrom,
-                        LocationFromName: oData.cityfrom,
-                        LocationTo      : oData.airpto,
-                        LocationToName  : oData.cityto,
-                        Passenger       : oRouterModel.getProperty("/Passenger")
-                    }                
-                });                    
+                this.checkReserve(oData.fldate, oData.carrid, oData.connid);
+                var path_num = oRecord.oBindingContexts.testModel.sPath.split("/")[2];     
+
+                if(dupFlag){
+                    var oConfirm = MessageBox.confirm("A reservation already exists for that date. Do you want to proceed?", {
+                        title: "Confirm",                                    // default                                      // default
+                        actions: [ sap.m.MessageBox.Action.OK,
+                                   sap.m.MessageBox.Action.CANCEL ],         // default
+                        emphasizedAction: sap.m.MessageBox.Action.OK,        // default
+                        onClose: function(sAction) {
+                            if(sAction == "OK")
+                                this.getOwnerComponent().getRouter().navTo("Reservation", {                
+                                    "?query": {
+                                        sPath           : path_num,
+                                        LocationFrom    : oData.airpfrom,
+                                        LocationFromName: oData.cityfrom,
+                                        LocationTo      : oData.airpto,
+                                        LocationToName  : oData.cityto,
+                                        Passenger       : oRouterModel.getProperty("/Passenger")
+                                    }                
+                            });    
+                                // this.getOwnerComponent().getRouter().navTo("RouteMain");  
+                        }.bind(this), 
+                    });       
+                }else{
+                    this.getOwnerComponent().getRouter().navTo("Reservation", {                
+                        "?query": {
+                            sPath           : path_num,
+                            LocationFrom    : oData.airpfrom,
+                            LocationFromName: oData.cityfrom,
+                            LocationTo      : oData.airpto,
+                            LocationToName  : oData.cityto,
+                            Passenger       : oRouterModel.getProperty("/Passenger")
+                        }                
+                    });                    
+                }
+            },
+
+            checkReserve: function(sDate, sCarrid, sConnid){
+                // DB 예약 테이블 조회하여 동일 항공편 예약 이력이 있는지 확인
+                var resultR;
+                var oUserModel = this.getOwnerComponent().getModel("mockUser");
+                var oReserveTable = this.getOwnerComponent().getModel("reservationTable"); // DB read 대용
+
+                // read 대용으로 해봤는데 다건은 고려하지 못함, 해당날짜의 데이터가 단건이라는 가정하에 진행 -> completeFlag
+                var indexR = $.inArray(sDate, $.map(oReserveTable.getProperty("/reservation"), function(n){
+                    return n.fldate
+                }));
+
+                // if ($.inArray('foo', array) == -1 && $.inArray('bar', array) == -1) {
+                //     // Neither foo or bar in array
+                // }
+
+
+                if(indexR !== -1){
+                    resultR = oReserveTable.getProperty("/reservation/"+indexR);
+                    if(resultR.userID === oUserModel.getProperty("/userId") && resultR.completeFlag === "false" 
+                       && resultR.cancelFlag === "false" && resultR.carrid === sCarrid && resultR.connid === sConnid)
+                        dupFlag = true;
+                }
             }
+
         });
     });
