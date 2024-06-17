@@ -18,8 +18,9 @@ sap.ui.define([
         return Controller.extend("dj.djchatbot.controller.Reservation", {
             onInit: function () {
                 var oTestModel = new JSONModel();
+                this._anyTest = this.getView();
                 this._wizard = this.byId("ShoppingCartWizard");
-                this._oNavContainer = this.byId("navContainer")
+                this._oNavContainer = this.byId("navContainer");
                 this._oDynamicPage = this.getPage();
                 oTestModel = this.getOwnerComponent().getModel("testModel");
                 this.getView().setModel(oTestModel, 'testModel');

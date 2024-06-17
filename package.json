@@ -15,6 +15,7 @@
     "@sap/ux-ui5-tooling": "1"
   },
   "scripts": {
+    "proxy": "node proxy.js",
     "start": "fiori run --open \"test/flpSandbox.html?sap-ui-xx-viewCache=false#djdjchatbot-display\"",
     "start-local": "fiori run --config ./ui5-local.yaml --open \"test/flpSandbox.html?sap-ui-xx-viewCache=false#djdjchatbot-display\"",
     "build": "ui5 build --config=ui5.yaml --clean-dest --dest dist",

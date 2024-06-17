@@ -15,11 +15,15 @@
         <Label id="l2" labelFor = "reserveInput" text="Password"/>	
         <Input id="passwordInput" type="Password" value="{reserveSearchModel>/password}"/>       
         </VBox>
-		<beginButton>
+        <buttons>
+            <Button id="search" text="Search" class="sapUiMediumMarginBegin" press="onDialogSearch"/>
+            <Button id="close" text="Close" press="onDialogClose"/>
+        </buttons>
+		<!-- <beginButton>
             <Button id="search" text="Search" class="sapUiMediumMarginBegin" press="onDialogSearch"/>
         </beginButton>
 		<endButton>
             <Button id="close" text="Close" press="onDialogClose"/>
-        </endButton>
+        </endButton> -->
 	</Dialog>
 </core:FragmentDefinition>

@@ -46,6 +46,37 @@ sap.ui.define([
                       
                 //     },
                 //   });
+                // var vvUrl = "https://port8082-workspaces-ws-b99hh.ap21.trial.applicationstudio.cloud.sap/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/"
+                // var vvUrl = "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/"
+                // var vvUrl = "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/$metadata?sap-language=EN"
+                var vvUrl = "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/$metadata"
+                        var username = 'qkrwlstjd3@naver.com';
+                        var password = 'danilej77!';
+                        var credentials = btoa(username + ':' + password);
+
+                // $.response.headers.set("Access-Control-Allow-Origin", "*");
+                // $.response.status = $.net.http.OK;
+
+                $.ajax({
+                    url: vvUrl,
+                    type: 'GET',
+                    dataType: 'json',
+                    crossDomain: true,
+                    beforeSend: function (req) {
+                        req.setRequestHeader('Authorization', 'Basic ' + credentials);
+                        req.setRequestHeader('Access-Control-Allow-Origin', '*');
+                        req.setRequestHeader('Origin', 'https://port8082-workspaces-ws-b99hh.ap21.trial.applicationstudio.cloud.sap/');
+                    },
+                    success: function(result) {
+                        console.log(result);
+                    },
+                    error: function(e) {
+                        console.log(e);
+                        // log error in browser
+                        console.log(e.message);
+                    }
+                });
+
                 var oTestModel = new JSONModel();
                 oTestModel = this.getOwnerComponent().getModel("testModel");
                 this.getView().setModel(oTestModel, 'testModel');
@@ -61,30 +92,62 @@ sap.ui.define([
                 var oArgs = oEvent.getParameter("arguments"),
                     oView = this.getView(),
                     oRouterModel = oView.getModel("routerModel");
+
+                var pleaseModel = this.getOwnerComponent().getModel("mainModel");
+                    // https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/ZC_TRAVEL_DJ_010?sap-client=100
+
+                        var url = 'https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/ZC_TRAVEL_DJ_010';
+                        // var username = 'qkrwlstjd3@naver.com';
+                        // var password = 'danilej77!';
+
+                        // // Base64 인코딩
+                        // var credentials = btoa(username + ':' + password);
+
+                    // $.ajax({
+                    //     url: url,
+                    //     method: "GET",
+                    //     dataType: 'json',
+                    //     // headers: {
+                    //     //     'Authorization': 'Basic ' + credentials,
+                    //     //     'Content-Type': 'application/json'
+                    //     // },
+                    //     beforeSend : function(xhr) {  
+                    //         xhr.setRequestHeader('Cookie', "__VCAP_ID__=e397484e-3767-4403-63db-6bb3; JSESSIONID=s%3ALBv6qfvhJShX8HOrp_WpVgRof1jE0gJD.fyMln7VUgHpph5m%2B6TsjECCDhyOvnB7Tb3EPQTsJ4iM");
+                    //         xhr.setRequestHeader('Host', "8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com");
+                    //       },
+                    //     success: function(response) {
+                    //         console.log("Success:", response);
+                    //     },
+                    //     error: function(jqXHR, textStatus, errorThrown) {
+                    //         // console.error("Error123:",jqXHR,  textStatus, errorThrown);
+                    //     }
+                    // });
                 // $.ajax({
-                //     url: "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/$metadata",
+                //     url: "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/ZC_TRAVEL_DJ_010",
                 //     type: "GET",
-                //     beforeSend: function (xhr) {
-                //         xhr.setRequestHeader("X-CSRF-Token", "Fetch");
-                //     },
-                //     complete: function (xhr) {
-                //         console.log(xhr)
-                //         var oToken = xhr.getResponseHeader("X-CSRF-Token");
-                //         $.ajax({
-                //             url: "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/ZC_TRAVEL_DJ_010",
-                //             type: "GET",
-                //             contentType: "application/json",
-                //             beforeSend: function (xhr1) {
-                //                 xhr1.setRequestHeader("X-CSRF-Token", oToken);
-                //             },
-                //             success: function (success) {
-                //                 console.log(success)
-                //             },
-                //             error: function (oError) {
-                //                 console.log(oError)
-                //             }
-                //         });
-                //     }
+                //     // beforeSend: function (xhr) {
+                //     //     xhr.setRequestHeader("X-CSRF-Token", "Fetch");
+                //     // },
+                //     // complete: function (xhr) {
+                //         success: function (success) {
+                //                     console.log(success)
+                //                 },
+                //         // var oToken = xhr.getResponseHeader("X-CSRF-Token");
+                //         // $.ajax({
+                //         //     url: "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/ZC_TRAVEL_DJ_010",
+                //         //     type: "GET",
+                //         //     contentType: "application/json",
+                //         //     beforeSend: function (xhr1) {
+                //         //         xhr1.setRequestHeader("X-CSRF-Token", oToken);
+                //         //     },
+                //         //     success: function (success) {
+                //         //         console.log(success)
+                //         //     },
+                //         //     error: function (oError) {
+                //         //         console.log(oError)
+                //         //     }
+                //         // });
+                //     // }
                 // });
 
                 if (!oArgs["?query"]) return;
