@@ -47,16 +47,16 @@ sap.ui.define([
                 //     },
                 //   });
                 // var vvUrl = "https://port8082-workspaces-ws-b99hh.ap21.trial.applicationstudio.cloud.sap/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/"
-                // var vvUrl = "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/"
+                var vvUrl = "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/"
                 // var vvUrl = "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/$metadata?sap-language=EN"
-                var vvUrl = "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/$metadata"
-                        var username = 'qkrwlstjd3@naver.com';
+                // var vvUrl = "https://8581cf25-e4bd-4b31-a78e-2d30182dcc48.abap-web.ap21.hana.ondemand.com/sap/opu/odata/sap/ZUI_C_TRAVEL_DJ_010/$metadata"
+                        var username = 'CB9980001819';
                         var password = 'danilej77!';
                         var credentials = btoa(username + ':' + password);
 
                 // $.response.headers.set("Access-Control-Allow-Origin", "*");
                 // $.response.status = $.net.http.OK;
-
+                var oResult;
                 $.ajax({
                     url: vvUrl,
                     type: 'GET',
@@ -65,15 +65,17 @@ sap.ui.define([
                     beforeSend: function (req) {
                         req.setRequestHeader('Authorization', 'Basic ' + credentials);
                         req.setRequestHeader('Access-Control-Allow-Origin', '*');
-                        req.setRequestHeader('Origin', 'https://port8082-workspaces-ws-b99hh.ap21.trial.applicationstudio.cloud.sap/');
+                        req.setRequestHeader('Origin', 'https://cors-anywhere.herokuapp.com/https://port8082-workspaces-ws-b99hh.ap21.trial.applicationstudio.cloud.sap/');
                     },
                     success: function(result) {
+                        oResult = result;
                         console.log(result);
                     },
                     error: function(e) {
                         console.log(e);
                         // log error in browser
                         console.log(e.message);
+                        oResult = e;
                     }
                 });
 
